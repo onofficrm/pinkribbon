@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Gnuboard runtime / secrets
+data/dbconfig.php
+data/cache/
+data/session/
+data/log/
+data/tmp/
+data/file/
+data/member/
+data/editor/
+data/latest/
+**/Thumbs.db
+
+# Local env
+.env
+.env.*
+*.pem
+*.key
