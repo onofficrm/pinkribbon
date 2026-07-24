@@ -24,7 +24,7 @@ jobs:
           protocol: ftp
           local-dir: ./
           server-dir: /public_html/
-          state-name: pinkribbon-deploy-v1
+          state-name: pinkribbon-deploy-v2
           log-level: minimal
           exclude: |
             **/.git*
@@ -34,7 +34,7 @@ jobs:
             _backup_transfer_*/
             **/_backup_transfer_*/
             _BUILDER_INPUT/**
-            data/**
+            ./data/**
             cache/**
             session/**
             tmp/**

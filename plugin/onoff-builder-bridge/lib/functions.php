@@ -752,6 +752,15 @@ if (!function_exists('onoff_builder_render_import_page')) {
 
         $id = onoff_builder_sanitize_project_id($raw_id);
         $meta = onoff_builder_get_import($id);
+        // imports.json 누락이어도 디스크에 dist가 있으면 렌더 (FTP 메타 누락 대비)
+        if (!$meta && function_exists('onoff_builder_project_exists') && onoff_builder_project_exists($id)) {
+            $meta = array(
+                'id'    => $id,
+                'name'  => $id,
+                'path'  => $id,
+                'entry' => 'index.html',
+            );
+        }
         if (!$meta) {
             onoff_builder_render_page_error('등록되지 않은 프로젝트입니다. 관리자 화면에서 업로드 여부를 확인해 주세요.');
         }
