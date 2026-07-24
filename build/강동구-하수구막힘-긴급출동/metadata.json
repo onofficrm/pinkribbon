@@ -1,0 +1,8 @@
+{
+  "name": "강동구 하수구막힘 긴급출동",
+  "description": "강동구 전 지역 하수구, 싱크대, 변기 막힘 30분 내 긴급출동 서비스 전환형 랜딩페이지",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

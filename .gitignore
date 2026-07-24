@@ -30,3 +30,9 @@ data/latest/
 .env.*
 *.pem
 *.key
+
+# Builder source tooling (dist is deployed via onoff-builder-bridge/imports)
+build/**/node_modules/
+build/**/dist/
+**/node_modules/
+build/*.zip

@@ -1,0 +1,973 @@
+/*
+ * Page: 강동구하수구막힘
+ * Slug: gangdong-drain-clog
+ * Prefix: ob-drain-
+ * CMS: WordPress
+ * Builder: OnOffBuilder Plugin
+ */
+
+/* ==========================================================================
+   1. Wrapper & Reset (Scoped)
+   ========================================================================== */
+.ob-drain-landing {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #334155;
+  line-height: 1.6;
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  /* 모바일 하단 고정 버튼 공간 확보 */
+  padding-bottom: 70px; 
+}
+
+.ob-drain-landing *,
+.ob-drain-landing *::before,
+.ob-drain-landing *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.ob-drain-landing img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.ob-drain-landing a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.ob-drain-landing ul,
+.ob-drain-landing ol {
+  list-style: none;
+}
+
+.ob-drain-landing button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   Container & Layout
+   ========================================================================== */
+.ob-drain-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.ob-drain-section {
+  padding: 80px 0;
+}
+
+.ob-drain-bg-gray {
+  background-color: #f8fafc;
+}
+
+.ob-drain-bg-navy {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.ob-drain-text-center {
+  text-align: center;
+}
+
+/* Typography */
+.ob-drain-landing h1,
+.ob-drain-landing h2,
+.ob-drain-landing h3,
+.ob-drain-landing h4,
+.ob-drain-landing h5,
+.ob-drain-landing h6 {
+  color: #0f172a;
+  line-height: 1.3;
+  word-break: keep-all;
+}
+
+.ob-drain-bg-navy h2,
+.ob-drain-bg-navy h3,
+.ob-drain-bg-navy p {
+  color: #ffffff;
+}
+
+.ob-drain-text-orange {
+  color: #f97316;
+}
+
+.ob-drain-sec-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.ob-drain-sec-header h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.ob-drain-sec-header p {
+  font-size: 1.125rem;
+  color: #475569;
+  max-width: 700px;
+  margin: 0 auto;
+  word-break: keep-all;
+}
+
+/* ==========================================================================
+   2. Header & Menu
+   ========================================================================== */
+.ob-drain-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #f1f5f9;
+  z-index: 50; /* 워드프레스 어드민바(99999) 아래 */
+  padding: 16px 0;
+}
+
+.ob-drain-header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ob-drain-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ob-drain-logo-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #0f172a;
+  color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.ob-drain-logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.ob-drain-logo-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.ob-drain-logo-desc {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.ob-drain-header-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+.ob-drain-header-btn:hover {
+  background-color: #1e293b;
+}
+
+/* ==========================================================================
+   5. Hero Section
+   ========================================================================== */
+.ob-drain-hero {
+  padding: 80px 0;
+  overflow: hidden;
+}
+
+.ob-drain-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.ob-drain-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background-color: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #ffedd5;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  margin-bottom: 24px;
+}
+
+.ob-drain-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.ob-drain-hero-desc {
+  font-size: 1.125rem;
+  color: #475569;
+  margin-bottom: 32px;
+  font-weight: 500;
+}
+
+.ob-drain-hero-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.ob-drain-hero-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.ob-drain-hero-list li::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: #fff7ed;
+  border: 2px solid #f97316;
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.ob-drain-btn-group {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ob-drain-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f97316;
+  color: #ffffff;
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 1.125rem;
+  transition: all 0.2s;
+  box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.4);
+  min-height: 56px;
+}
+
+.ob-drain-btn-primary:hover {
+  transform: translateY(-2px);
+  background-color: #ea580c;
+  box-shadow: 0 12px 30px -5px rgba(249, 115, 22, 0.5);
+}
+
+.ob-drain-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #334155;
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 1.125rem;
+  border: 2px solid #e2e8f0;
+  transition: all 0.2s;
+  min-height: 56px;
+}
+
+.ob-drain-btn-outline:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.ob-drain-hero-image-wrap {
+  position: relative;
+}
+
+.ob-drain-hero-image {
+  border-radius: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  border: 4px solid #ffffff;
+  aspect-ratio: 4/3;
+}
+
+/* ==========================================================================
+   7. Symptom Cards
+   ========================================================================== */
+.ob-drain-symptom-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.ob-drain-symptom-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ob-drain-symptom-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+.ob-drain-symptom-icon {
+  width: 56px;
+  height: 56px;
+  background-color: #fff7ed;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  border: 1px solid #ffedd5;
+  color: #f97316;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.ob-drain-symptom-card h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.ob-drain-symptom-card p {
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 24px;
+}
+
+.ob-drain-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #f97316;
+  font-weight: 800;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+  margin-top: auto;
+}
+
+.ob-drain-link:hover {
+  color: #ea580c;
+}
+
+/* ==========================================================================
+   8. Service Cards
+   ========================================================================== */
+.ob-drain-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.ob-drain-service-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.ob-drain-service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #f97316;
+}
+
+.ob-drain-service-card h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.ob-drain-service-card p {
+  color: #475569;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.ob-drain-service-points {
+  margin-bottom: 32px;
+  flex-grow: 1;
+}
+
+.ob-drain-service-points li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 12px;
+}
+
+.ob-drain-service-points li::before {
+  content: '✓';
+  color: #f97316;
+  font-weight: bold;
+}
+
+.ob-drain-btn-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
+  background-color: #f8fafc;
+  color: #334155;
+  border-radius: 16px;
+  font-weight: 800;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s;
+}
+
+.ob-drain-service-card:hover .ob-drain-btn-block {
+  background-color: #f97316;
+  color: #ffffff;
+  border-color: #f97316;
+}
+
+/* ==========================================================================
+   9. Equipment Section
+   ========================================================================== */
+.ob-drain-equip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.ob-drain-equip-image {
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  aspect-ratio: 4/5;
+}
+
+.ob-drain-equip-content {
+  padding: 20px 0;
+}
+
+.ob-drain-equip-content h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.ob-drain-equip-content p {
+  color: #475569;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.ob-drain-check-box {
+  background-color: #0f172a;
+  border-radius: 24px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.1);
+}
+
+.ob-drain-check-box h4 {
+  color: #ffffff;
+  font-size: 1.125rem;
+  margin-bottom: 20px;
+}
+
+.ob-drain-check-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ob-drain-check-list li {
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.ob-drain-check-list li::before {
+  content: '✓';
+  color: #f97316;
+  font-weight: bold;
+}
+
+.ob-drain-caution-box {
+  background-color: #fefce8;
+  border: 1px solid #fef08a;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 32px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ob-drain-caution-box p {
+  color: #854d0e;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ==========================================================================
+   10. Process Timeline
+   ========================================================================== */
+.ob-drain-process-wrap {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.ob-drain-process-line {
+  position: absolute;
+  top: 48px;
+  left: 10%;
+  width: 80%;
+  height: 4px;
+  background-color: #e2e8f0;
+  z-index: 1;
+}
+
+.ob-drain-process-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.ob-drain-process-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.ob-drain-process-num {
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  width: 40px;
+  height: 40px;
+  background-color: #0f172a;
+  color: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.125rem;
+  transform: rotate(-6deg);
+}
+
+.ob-drain-process-icon {
+  width: 64px;
+  height: 64px;
+  background-color: #fff7ed;
+  color: #f97316;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  border: 1px solid #ffedd5;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.ob-drain-process-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: 12px;
+}
+
+.ob-drain-process-card p {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   11. Location Tags
+   ========================================================================== */
+.ob-drain-area-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.ob-drain-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 32px 0;
+}
+
+.ob-drain-tag {
+  padding: 10px 24px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #334155;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.ob-drain-area-cta {
+  background-color: #0f172a;
+  border-radius: 40px;
+  padding: 48px 40px;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+}
+
+.ob-drain-area-cta h3 {
+  font-size: 1.75rem;
+  margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   12. FAQ
+   ========================================================================== */
+.ob-drain-faq-wrap {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ob-drain-faq-item {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.ob-drain-faq-q {
+  width: 100%;
+  text-align: left;
+  padding: 24px 32px;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #0f172a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.ob-drain-faq-q:hover {
+  background-color: #f8fafc;
+}
+
+.ob-drain-faq-q::after {
+  content: '▼';
+  font-size: 0.8rem;
+  color: #94a3b8;
+  transition: transform 0.3s;
+}
+
+.ob-drain-faq-item.active .ob-drain-faq-q::after {
+  transform: rotate(180deg);
+}
+
+.ob-drain-faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color: #f8fafc;
+}
+
+.ob-drain-faq-a p {
+  padding: 0 32px 32px;
+  margin: 0;
+  color: #475569;
+  line-height: 1.6;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 24px;
+}
+
+/* ==========================================================================
+   13. Final CTA & Contact Form
+   ========================================================================== */
+.ob-drain-final-cta {
+  padding: 100px 0;
+  background-color: #0f172a;
+  color: #ffffff;
+  text-align: center;
+}
+
+.ob-drain-final-cta h2 {
+  font-size: 2.5rem;
+  margin-bottom: 24px;
+}
+
+.ob-drain-final-cta p {
+  font-size: 1.125rem;
+  color: #cbd5e1;
+  margin-bottom: 48px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ob-drain-cta-btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
+}
+
+.ob-drain-btn-white-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: #ffffff;
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 1.125rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.2s;
+  min-height: 56px;
+}
+
+.ob-drain-btn-white-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.ob-drain-form-box {
+  background-color: #ffffff;
+  border-radius: 32px;
+  padding: 48px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+  color: #0f172a;
+}
+
+.ob-drain-form-box h3 {
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   14. Mobile Bottom Bar
+   ========================================================================== */
+.ob-drain-mobile-bar {
+  display: none; /* Desktop hidden */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  z-index: 100;
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.ob-drain-mobile-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.ob-drain-mobile-call {
+  background-color: #f97316;
+}
+
+.ob-drain-mobile-kakao {
+  background-color: #FEE500;
+  color: #191919;
+}
+
+.ob-drain-mobile-contact {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   16. Media Queries
+   ========================================================================== */
+
+/* Tablet (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .ob-drain-hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .ob-drain-hero-list {
+    text-align: left;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ob-drain-btn-group {
+    justify-content: center;
+  }
+
+  .ob-drain-symptom-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ob-drain-service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ob-drain-equip-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-drain-process-line {
+    display: none;
+  }
+
+  .ob-drain-process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .ob-drain-area-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .ob-drain-mobile-bar {
+    display: flex;
+  }
+
+  .ob-drain-header-btn {
+    display: none; /* Hide header btn on mobile */
+  }
+
+  .ob-drain-section {
+    padding: 60px 0;
+  }
+
+  .ob-drain-hero-title {
+    font-size: 2.25rem;
+  }
+  
+  .ob-drain-sec-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .ob-drain-hero-list {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-drain-symptom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-drain-service-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-drain-check-list {
+    grid-template-columns: 1fr;
+  }
+
+  .ob-drain-process-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ob-drain-process-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ob-drain-btn-primary,
+  .ob-drain-btn-outline,
+  .ob-drain-btn-white-outline {
+    width: 100%;
+  }
+
+  .ob-drain-faq-q {
+    font-size: 1rem;
+    padding: 20px;
+  }
+  
+  .ob-drain-faq-a p {
+    padding: 0 20px 20px;
+  }
+
+  .ob-drain-final-cta h2 {
+    font-size: 2rem;
+  }
+
+  .ob-drain-form-box {
+    padding: 32px 24px;
+  }
+}

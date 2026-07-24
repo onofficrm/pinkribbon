@@ -8,27 +8,27 @@ if (!defined('_GNUBOARD_')) {
 }
 
 $site_config = array(
-    'site_name'           => '샘플 사이트',
-    'site_desc'           => '빌더 디자인 적용이 쉬운 그누보드 베이스 템플릿',
-    'company_name'        => '회사명',
-    'ceo_name'            => '대표자명',
-    'business_no'         => '000-00-00000',
-    'phone'               => '010-0000-0000',
-    'kakao_url'           => '#',
+    'site_name'           => '강동구 하수구막힘 긴급출동',
+    'site_desc'           => '강동구 전 지역 하수구, 싱크대, 변기 막힘 30분 내 긴급출동',
+    'company_name'        => '강동 하수구 해결센터',
+    'ceo_name'            => '김배관',
+    'business_no'         => '123-45-67890',
+    'phone'               => '010-1234-5678',
+    'kakao_url'           => '#kakao-chat',
     'email'               => 'help@example.com',
-    'address'             => '주소를 입력하세요',
+    'address'             => '서울특별시 강동구 천호대로 00길 00',
     'primary_color'       => '#2563eb',
     'secondary_color'     => '#64748b',
     'logo_path'           => '/img/logo/logo.svg',
     'og_image'            => '/img/common/og-image.jpg',
     /* SEO (components/seo-meta.php) */
-    'seo_title'           => '',
-    'seo_description'     => '',
-    'main_keyword'        => '',
-    'sub_keywords'        => '',
+    'seo_title'           => '강동구 하수구막힘 긴급출동',
+    'seo_description'     => '강동구 전 지역 하수구, 싱크대, 변기 막힘 30분 내 긴급출동 서비스',
+    'main_keyword'        => '강동구하수구막힘',
+    'sub_keywords'        => '강동구 싱크대 막힘,강동구 변기 막힘,강동구 배수구 막힘,강동구 하수구 긴급출동',
     'robots'              => 'index,follow',
-    'consultation_text'   => '상담문의',
-    'footer_desc'         => '고객의 성장을 돕는 웹사이트 제작 베이스입니다.',
+    'consultation_text'   => '긴급출동 상담',
+    'footer_desc'         => '강동구 하수구·싱크대·변기 막힘 긴급출동',
     /* 문의 폼 → inquiry 게시판 (proc/inquiry-submit.php) */
     'inquiry_bo_table'        => 'inquiry',
     'inquiry_notify_enabled'  => true,
@@ -109,7 +109,7 @@ $site_config = array(
     'icrm_hub_enabled'          => true,
     'icrm_hub_geo_button'       => true,
     /* onoff-builder-bridge — 루트 / 를 빌더 페이지로 (project_id) */
-    'home_builder_bridge_id'    => '',
+    'home_builder_bridge_id'    => 'gangdong-drain',
 );
 
 /**
