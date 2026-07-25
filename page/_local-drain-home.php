@@ -11,7 +11,7 @@ if (!isset($local_dong_slug, $local_dong_name)) {
 }
 
 if (!defined('_GNUBOARD_')) {
-    include_once dirname(__FILE__) . '/../_common.php';
+    include_once dirname(__FILE__) . '/../common.php';
 }
 
 if (!defined('_GNUBOARD_')) {
