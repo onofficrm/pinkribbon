@@ -2,7 +2,6 @@ export const contactInfo = {
   phone: '010-1234-5678',
   phoneFormatted: '010-1234-5678',
   phoneDisplay: '010-1234-5678',
-  kakao: '#kakao-chat',
   form: '#inquiry-form',
   companyName: '강동 하수구 해결센터',
   businessNumber: '123-45-67890',

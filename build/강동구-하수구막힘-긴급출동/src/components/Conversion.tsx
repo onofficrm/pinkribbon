@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Camera, Clock, Phone, Star, Upload, Users, X } from 'lucide-react';
-import { contactInfo, getDongFromUrl, localAreas, phoneCtaLabel, reviews, telHref } from '../data';
+import { getDongFromUrl, localAreas, phoneCtaLabel, reviews, telHref } from '../data';
 
 export const TrustSignals = () => {
   const [consultToday, setConsultToday] = useState(11);
@@ -312,15 +312,7 @@ export const ExitPopup = () => {
                 onClick={() => setOpen(false)}
                 className="w-full inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-4 rounded-2xl font-extrabold"
               >
-                <Camera className="w-5 h-5" /> 사진 보내고 상담
-              </a>
-              <a
-                href={contactInfo.kakao}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 bg-[#FEE500] text-[#191919] px-6 py-4 rounded-2xl font-extrabold"
-              >
-                카카오톡으로 사진 보내기
+                <Camera className="w-5 h-5" /> 사진 보내고 전화상담
               </a>
             </div>
           </motion.div>

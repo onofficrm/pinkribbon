@@ -134,7 +134,7 @@ export const Process = () => {
       num: "01",
       icon: <MessageSquare className="w-6 h-6" />,
       title: "상담 접수",
-      desc: "전화, 카카오톡, 문의폼으로 현재 막힘 증상을 알려주세요."
+      desc: "전화상담 또는 사진 문의폼으로 현재 막힘 증상을 알려주세요."
     },
     {
       num: "02",

@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Phone, MessageCircle, FormInput, ArrowDown, CheckCircle2, ShieldCheck, Clock, MapPin, Wrench } from 'lucide-react';
+import { Phone, FormInput, ArrowDown, CheckCircle2, ShieldCheck, Clock, MapPin, Wrench } from 'lucide-react';
 import { contactInfo, getDongFromUrl, phoneCtaLabel, telHref } from '../data';
 import { TrustSignals } from './Conversion';
 
@@ -157,13 +157,9 @@ export const MobileBottomBar = () => {
   const area = getDongFromUrl() || '강동구';
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 flex pb-safe shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)]">
-      <a href={telHref()} className="flex-[1.2] py-3 flex flex-col items-center justify-center gap-1 bg-orange-500 text-white">
+      <a href={telHref()} className="flex-[1.4] py-3 flex flex-col items-center justify-center gap-1 bg-orange-500 text-white">
         <Phone className="w-5 h-5" />
-        <span className="text-[10px] font-extrabold tracking-tight px-1 text-center leading-tight">{area} 출동확인</span>
-      </a>
-      <a href={contactInfo.kakao} target="_blank" rel="noreferrer" className="flex-1 py-3 flex flex-col items-center justify-center gap-1 bg-[#FEE500] text-[#191919]">
-        <MessageCircle className="w-5 h-5" />
-        <span className="text-[10px] font-extrabold tracking-tight">카톡상담</span>
+        <span className="text-[10px] font-extrabold tracking-tight px-1 text-center leading-tight">{area} 전화상담</span>
       </a>
       <a href="#inquiry-form" className="flex-1 py-3 flex flex-col items-center justify-center gap-1 bg-slate-900 text-white">
         <FormInput className="w-5 h-5" />

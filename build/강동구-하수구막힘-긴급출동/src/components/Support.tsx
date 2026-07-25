@@ -168,20 +168,11 @@ export const FinalCTA = () => {
           </a>
 
           <a
-            href={contactInfo.kakao}
-            target="_blank"
-            rel="noreferrer"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#FEE500] hover:bg-[#f5dc00] text-[#191919] px-8 py-5 rounded-2xl font-extrabold text-lg transition-all"
-          >
-            카카오톡 상담하기
-          </a>
-
-          <a
             href="#inquiry-form"
             className="w-full sm:w-auto flex items-center justify-center gap-2 bg-transparent hover:bg-white/5 text-white px-8 py-5 rounded-2xl font-extrabold text-lg transition-all border border-white/30"
           >
             <Camera className="w-5 h-5" />
-            사진 상담 폼
+            사진 보내고 전화상담
           </a>
         </div>
       </div>
