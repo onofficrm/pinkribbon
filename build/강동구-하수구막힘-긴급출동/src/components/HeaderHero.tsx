@@ -28,6 +28,8 @@ export const Header = () => {
           <button onClick={() => scrollTo('symptoms')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">증상</button>
           <button onClick={() => scrollTo('process')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">작업순서</button>
           <button onClick={() => scrollTo('areas')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">출동지역</button>
+          <a href="/bbs/board.php?bo_table=notice" className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">시공사례</a>
+          <button onClick={() => scrollTo('cases')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">최근사례</button>
           <button onClick={() => scrollTo('faq')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">FAQ</button>
           <button onClick={() => scrollTo('contact')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">문의하기</button>
         </nav>

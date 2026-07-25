@@ -1,6 +1,7 @@
 import { Header, Hero, MobileBottomBar } from './components/HeaderHero';
 import { Symptoms, Services, ContextTypes } from './components/ProblemSolution';
 import { Equipment, Process, Areas } from './components/TrustProcess';
+import { CaseGallery } from './components/CaseGallery';
 import { Notices, FAQ, FinalCTA, Footer } from './components/Support';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Equipment />
         <Process />
         <Areas />
+        <CaseGallery />
         <Notices />
         <FAQ />
         <FinalCTA />
