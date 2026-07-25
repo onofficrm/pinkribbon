@@ -3,6 +3,7 @@ import { Symptoms, Services, ContextTypes } from './components/ProblemSolution';
 import { Equipment, Process, Areas } from './components/TrustProcess';
 import { CaseGallery } from './components/CaseGallery';
 import { Notices, FAQ, FinalCTA, Footer } from './components/Support';
+import { ExitPopup, PhotoInquiryForm, Reviews } from './components/Conversion';
 
 export default function App() {
   return (
@@ -17,12 +18,15 @@ export default function App() {
         <Process />
         <Areas />
         <CaseGallery />
+        <Reviews />
+        <PhotoInquiryForm />
         <Notices />
         <FAQ />
         <FinalCTA />
       </main>
       <Footer />
       <MobileBottomBar />
+      <ExitPopup />
     </div>
   );
 }

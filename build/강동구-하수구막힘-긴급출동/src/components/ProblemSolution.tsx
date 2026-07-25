@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { AlertTriangle, Bath, CheckCircle2, Droplets, PhoneCall, Store, Waves } from 'lucide-react';
-import { contactInfo } from '../data';
+import { phoneCtaLabel, telHref } from '../data';
 
 const symptomItems = [
   { icon: Droplets, title: '물이 천천히 내려가요' },
@@ -44,9 +44,14 @@ export const Symptoms = () => (
               </div>
             ))}
           </div>
-          <a href={`tel:${contactInfo.phone}`} className="inline-flex items-center gap-2 bg-slate-900 hover:bg-orange-500 text-white px-7 py-4 rounded-2xl font-extrabold transition-colors">
-            <PhoneCall className="w-5 h-5" /> 증상 사진과 위치로 상담하기
-          </a>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a href={telHref()} className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-7 py-4 rounded-2xl font-extrabold transition-colors">
+              <PhoneCall className="w-5 h-5" /> {phoneCtaLabel('강동구')}
+            </a>
+            <a href="#inquiry-form" className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-7 py-4 rounded-2xl font-extrabold transition-colors">
+              사진 보내고 상담
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -89,7 +94,7 @@ export const Services = () => (
         {services.map(({ image, icon: Icon, title, caption }, idx) => (
           <motion.a
             key={title}
-            href={`tel:${contactInfo.phone}`}
+            href={telHref()}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

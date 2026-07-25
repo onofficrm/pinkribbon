@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown, ShieldAlert, PhoneCall } from 'lucide-react';
-import { contactInfo } from '../data';
+import { ChevronDown, ShieldAlert, PhoneCall, Camera } from 'lucide-react';
+import { contactInfo, getDongFromUrl, phoneCtaLabel, telHref } from '../data';
 
 export const Notices = () => {
   const promises = [
@@ -117,7 +117,21 @@ export const FAQ = () => {
                     className="overflow-hidden"
                   >
                     <div className="px-6 md:px-8 pb-8 text-slate-600 bg-slate-50/50 border-t border-slate-100">
-                      <div className="pt-6 font-medium leading-relaxed break-keep">A. {faq.a}</div>
+                      <div className="pt-6 font-medium leading-relaxed break-keep mb-5">A. {faq.a}</div>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <a
+                          href={telHref()}
+                          className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-xl text-sm font-extrabold"
+                        >
+                          <PhoneCall className="w-4 h-4" /> 이 증상으로 전화상담
+                        </a>
+                        <a
+                          href="#inquiry-form"
+                          className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-3 rounded-xl text-sm font-extrabold"
+                        >
+                          <Camera className="w-4 h-4" /> 사진 보내고 상담
+                        </a>
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -131,41 +145,43 @@ export const FAQ = () => {
 };
 
 export const FinalCTA = () => {
+  const area = getDongFromUrl() || '강동구';
   return (
     <section id="contact" className="py-24 md:py-32 bg-slate-900 relative overflow-hidden scroll-mt-20">
       <img src="/plugin/onoff-builder-bridge/imports/gangdong-drain/images/drain-hero.webp" alt="" className="absolute inset-0 w-full h-full object-cover object-[70%_center]" />
       <div className="absolute inset-0 bg-slate-950/80"></div>
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight break-keep">
-          막힘 위치 사진 한 장이면<br className="hidden md:block" /> 상담이 더 빨라집니다
+          {area} 막힘,<br className="hidden md:block" /> 사진 한 장이면 상담이 빨라집니다
         </h2>
-        <p className="text-slate-300 text-lg mb-12 font-medium break-keep leading-relaxed max-w-2xl mx-auto">
+        <p className="text-slate-300 text-lg mb-10 font-medium break-keep leading-relaxed max-w-2xl mx-auto">
           현재 증상과 위치를 알려주세요. 필요한 장비와 작업 방향을 빠르게 안내합니다.
         </p>
-        
+
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href={`tel:${contactInfo.phone}`}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-bold text-lg transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 border border-orange-500"
+            href={telHref()}
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold text-lg transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 border border-orange-500"
           >
             <PhoneCall className="w-5 h-5" />
-            전화상담 바로가기
+            {phoneCtaLabel(area)}
           </a>
-          
+
           <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); alert('카카오톡 상담 채널로 연결됩니다.'); }}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-transparent hover:bg-white/5 text-white px-8 py-5 rounded-2xl font-bold text-lg transition-all border border-white/30"
+            href={contactInfo.kakao}
+            target="_blank"
+            rel="noreferrer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#FEE500] hover:bg-[#f5dc00] text-[#191919] px-8 py-5 rounded-2xl font-extrabold text-lg transition-all"
           >
             카카오톡 상담하기
           </a>
-          
+
           <a
-            href="#contact-form"
-            onClick={(e) => { e.preventDefault(); alert('문의폼 작성 모달이 열립니다.'); }}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-transparent hover:bg-white/5 text-white px-8 py-5 rounded-2xl font-bold text-lg transition-all border border-white/30"
+            href="#inquiry-form"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-transparent hover:bg-white/5 text-white px-8 py-5 rounded-2xl font-extrabold text-lg transition-all border border-white/30"
           >
-            문의폼 작성하기
+            <Camera className="w-5 h-5" />
+            사진 상담 폼
           </a>
         </div>
       </div>
