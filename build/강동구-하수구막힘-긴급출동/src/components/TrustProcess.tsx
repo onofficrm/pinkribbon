@@ -16,9 +16,9 @@ export const Equipment = () => {
               viewport={{ once: true }}
               className="relative rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[4/5] lg:aspect-auto lg:h-[800px] border-4 border-slate-50"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1000&auto=format&fit=crop" 
-                alt="강동구하수구막힘 전문 장비 점검" 
+              <img
+                src="/plugin/onoff-builder-bridge/imports/gangdong-drain/images/drain-equipment.webp"
+                alt="배관 내시경과 전문 하수구 청소 장비"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
