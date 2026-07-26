@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Wrench, Search, MapPin, ShieldCheck, CheckCircle2, Info, PhoneCall, MessageSquare, ClipboardList, Sparkles } from 'lucide-react';
-import { localAreas, phoneCtaLabel, telHref } from '../data';
+import { areaSpots, assetUrl, localAreas, localAreaUrl, phoneCtaLabel, regionName, telHref } from '../data';
 
 export const Equipment = () => {
   return (
@@ -17,7 +17,7 @@ export const Equipment = () => {
               className="relative rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[4/5] lg:aspect-auto lg:h-[800px] border-4 border-slate-50"
             >
               <img
-                src="/plugin/onoff-builder-bridge/imports/gangdong-drain/images/drain-equipment.webp"
+                src={assetUrl('drain-equipment.webp')}
                 alt="배관 내시경과 전문 하수구 청소 장비"
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -118,7 +118,7 @@ export const Equipment = () => {
                 className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold text-lg transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 w-full sm:w-auto"
               >
                 <PhoneCall className="w-5 h-5" />
-                {phoneCtaLabel('강동구')}
+                {phoneCtaLabel(regionName)}
               </a>
             </motion.div>
           </div>
@@ -230,7 +230,7 @@ export const Process = () => {
               className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-10 py-5 rounded-2xl font-extrabold text-xl transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30"
             >
               <PhoneCall className="w-6 h-6" />
-              {phoneCtaLabel('강동구')}
+              {phoneCtaLabel(regionName)}
             </a>
           </div>
         </div>
@@ -241,10 +241,7 @@ export const Process = () => {
 };
 
 export const Areas = () => {
-  const stations = [
-    '천호역 인근', '강동역 인근', '길동역 인근', '둔촌동역 인근',
-    '암사역 인근', '명일역 인근', '고덕역 인근', '상일동역 인근',
-  ];
+  const areaSummary = localAreas.slice(0, 3).map((area) => area.name.replace(/동$/, '')).join('·');
 
   return (
     <section id="areas" className="py-24 bg-white scroll-mt-20 relative overflow-hidden">
@@ -254,7 +251,7 @@ export const Areas = () => {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center lg:items-start">
           <div className="w-full lg:w-3/5">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 rounded-full text-orange-600 font-bold text-sm mb-6 border border-orange-100 shadow-sm">
-              <MapPin className="w-4 h-4" /> 강동구 전지역 출동
+              <MapPin className="w-4 h-4" /> {regionName} 전지역 출동
             </div>
 
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6 break-keep">
@@ -263,14 +260,14 @@ export const Areas = () => {
             </h2>
 
             <p className="text-slate-600 text-lg font-bold mb-6 break-keep">
-              천호·길동·암사 등 동별 페이지에서 바로 전화·사진 상담이 가능합니다.
+              {areaSummary || regionName} 등 지역별 페이지에서 바로 전화·사진 상담이 가능합니다.
             </p>
 
             <div className="flex flex-wrap gap-2 md:gap-3 mb-6">
               {localAreas.map((area) => (
                 <a
                   key={area.slug}
-                  href={`/page/local-${area.slug}.php`}
+                  href={localAreaUrl(area)}
                   className="px-4 py-2.5 bg-white border border-slate-200 text-slate-800 rounded-xl font-extrabold text-sm shadow-sm hover:border-orange-400 hover:text-orange-600 transition-colors"
                 >
                   {area.name}
@@ -279,7 +276,7 @@ export const Areas = () => {
             </div>
 
             <div className="flex flex-wrap gap-2 mb-8">
-              {stations.map((name) => (
+              {areaSpots.map((name) => (
                 <span key={name} className="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-500 rounded-lg font-bold text-xs">
                   {name}
                 </span>
@@ -289,7 +286,7 @@ export const Areas = () => {
             <div className="flex items-start gap-3 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
               <Info className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
               <p className="text-slate-600 font-medium text-sm md:text-base leading-relaxed break-keep">
-                목록에 없어도 강동구 인근이면 상담 가능합니다. 위치와 증상을 알려주세요.
+                목록에 없어도 {regionName} 인근이면 상담 가능합니다. 위치와 증상을 알려주세요.
               </p>
             </div>
           </div>
@@ -317,7 +314,7 @@ export const Areas = () => {
                 className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold text-lg transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30"
               >
                 <PhoneCall className="w-5 h-5" />
-                {phoneCtaLabel('강동구')}
+                {phoneCtaLabel(regionName)}
               </a>
             </div>
           </div>

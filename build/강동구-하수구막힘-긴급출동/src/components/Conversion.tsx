@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Camera, Clock, Phone, Star, Upload, Users, X } from 'lucide-react';
-import { getDongFromUrl, localAreas, phoneCtaLabel, reviews, telHref } from '../data';
+import { getDongFromUrl, localAreas, phoneCtaLabel, regionName, reviews, telHref } from '../data';
 
 export const TrustSignals = () => {
   const [consultToday, setConsultToday] = useState(11);
@@ -22,7 +22,7 @@ export const TrustSignals = () => {
         <Clock className="w-4 h-4 text-orange-400" /> 평균 응답 {responseMin}분
       </span>
       <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/10 border border-white/20 text-white text-sm font-bold">
-        강동구 출동 가능
+        {regionName} 출동 가능
       </span>
     </div>
   );
@@ -37,7 +37,7 @@ export const PhoneCta = ({
   className?: string;
   size?: 'sm' | 'md' | 'lg';
 }) => {
-  const dong = area || getDongFromUrl() || '강동구';
+  const dong = area || getDongFromUrl() || regionName;
   const pad = size === 'lg' ? 'px-8 py-5 text-lg' : size === 'sm' ? 'px-4 py-2.5 text-sm' : 'px-6 py-4 text-base';
   return (
     <a
@@ -51,7 +51,7 @@ export const PhoneCta = ({
 };
 
 export const PhotoInquiryForm = ({ compact = false }: { compact?: boolean }) => {
-  const defaultArea = getDongFromUrl() || '천호동';
+  const defaultArea = getDongFromUrl() || localAreas[0]?.name || regionName;
   const [phone, setPhone] = useState('');
   const [area, setArea] = useState(defaultArea);
   const [symptom, setSymptom] = useState('싱크대/배수 막힘');
@@ -142,7 +142,7 @@ export const PhotoInquiryForm = ({ compact = false }: { compact?: boolean }) => 
                 {localAreas.map((a) => (
                   <option key={a.slug} value={a.name}>{a.name}</option>
                 ))}
-                <option value="강동구 기타">강동구 기타</option>
+                <option value={`${regionName} 기타`}>{regionName} 기타</option>
               </select>
             </label>
           </div>
@@ -216,7 +216,7 @@ export const Reviews = () => (
         <div>
           <p className="text-orange-500 font-extrabold tracking-widest text-sm mb-3">REVIEWS</p>
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight break-keep">
-            강동구 현장 후기
+            {regionName} 현장 후기
           </h2>
         </div>
         <a href="/bbs/board.php?bo_table=notice" className="text-orange-500 font-extrabold hover:text-orange-600">
@@ -273,7 +273,7 @@ export const ExitPopup = () => {
     };
   }, []);
 
-  const area = useMemo(() => getDongFromUrl() || '강동구', [open]);
+  const area = useMemo(() => getDongFromUrl() || regionName, [open]);
 
   return (
     <AnimatePresence>

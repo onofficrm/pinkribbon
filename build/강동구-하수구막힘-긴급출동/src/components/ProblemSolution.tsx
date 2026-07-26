@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { AlertTriangle, Bath, CheckCircle2, Droplets, PhoneCall, Store, Waves } from 'lucide-react';
-import { phoneCtaLabel, telHref } from '../data';
+import { assetUrl, phoneCtaLabel, regionName, telHref } from '../data';
 
 const symptomItems = [
   { icon: Droplets, title: '물이 천천히 내려가요' },
@@ -19,7 +19,7 @@ export const Symptoms = () => (
           viewport={{ once: true }}
           className="relative overflow-hidden rounded-[2rem] min-h-[430px] md:min-h-[560px] shadow-2xl"
         >
-          <img src="/plugin/onoff-builder-bridge/imports/gangdong-drain/images/sink-service.webp" alt="싱크대 배관 내시경 점검" className="absolute inset-0 w-full h-full object-cover" />
+          <img src={assetUrl('sink-service.webp')} alt="싱크대 배관 내시경 점검" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
           <div className="absolute left-5 right-5 bottom-5 md:left-8 md:right-8 md:bottom-8 p-5 md:p-6 rounded-2xl bg-white/95 backdrop-blur shadow-xl">
             <p className="text-orange-500 font-extrabold text-sm mb-1">증상이 반복된다면</p>
@@ -46,7 +46,7 @@ export const Symptoms = () => (
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <a href={telHref()} className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-7 py-4 rounded-2xl font-extrabold transition-colors">
-              <PhoneCall className="w-5 h-5" /> {phoneCtaLabel('강동구')}
+              <PhoneCall className="w-5 h-5" /> {phoneCtaLabel(regionName)}
             </a>
             <a href="#inquiry-form" className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-7 py-4 rounded-2xl font-extrabold transition-colors">
               사진 보내고 상담
@@ -60,19 +60,19 @@ export const Symptoms = () => (
 
 const services = [
   {
-    image: '/plugin/onoff-builder-bridge/imports/gangdong-drain/images/sink-service.webp',
+    image: assetUrl('sink-service.webp'),
     icon: Droplets,
     title: '싱크대·주방 배관',
     caption: '느린 배수 · 기름때 · 반복 막힘',
   },
   {
-    image: '/plugin/onoff-builder-bridge/imports/gangdong-drain/images/drain-equipment.webp',
+    image: assetUrl('drain-equipment.webp'),
     icon: Waves,
     title: '하수구·배수구',
     caption: '역류 · 악취 · 내부 배관 점검',
   },
   {
-    image: '/plugin/onoff-builder-bridge/imports/gangdong-drain/images/commercial-drain.webp',
+    image: assetUrl('commercial-drain.webp'),
     icon: Store,
     title: '음식점·상가',
     caption: '영업장 주방 · 바닥 배수 · 긴급 작업',
@@ -131,9 +131,9 @@ export const ContextTypes = () => (
         </div>
         <div className="grid grid-cols-3 gap-2 md:gap-4">
           {[
-            ['/plugin/onoff-builder-bridge/imports/gangdong-drain/images/drain-hero.webp', '주거공간'],
-            ['/plugin/onoff-builder-bridge/imports/gangdong-drain/images/commercial-drain.webp', '상업공간'],
-            ['/plugin/onoff-builder-bridge/imports/gangdong-drain/images/drain-equipment.webp', '전문장비'],
+            [assetUrl('drain-hero.webp'), '주거공간'],
+            [assetUrl('commercial-drain.webp'), '상업공간'],
+            [assetUrl('drain-equipment.webp'), '전문장비'],
           ].map(([image, label]) => (
             <div key={label} className="relative aspect-[3/4] overflow-hidden rounded-2xl md:rounded-3xl">
               <img src={image} alt={label} className="absolute inset-0 w-full h-full object-cover" />

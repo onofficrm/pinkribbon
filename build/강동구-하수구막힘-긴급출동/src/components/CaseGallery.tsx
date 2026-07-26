@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Images } from 'lucide-react';
+import { regionName } from '../data';
 
 type CaseItem = {
   id: number;
@@ -59,7 +60,7 @@ export const CaseGallery = () => {
               최근 시공사례
             </h2>
             <p className="text-slate-400 font-medium max-w-xl break-keep leading-relaxed">
-              강동구 현장 작업 사진을 갤러리로 확인하세요. 신규 등록 사례가 홈에 바로 반영됩니다.
+              {regionName} 현장 작업 사진을 갤러리로 확인하세요. 신규 등록 사례가 홈에 바로 반영됩니다.
             </p>
           </div>
           <a

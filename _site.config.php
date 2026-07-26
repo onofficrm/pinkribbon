@@ -1,34 +1,54 @@
 <?php
 /**
- * 사이트 공통 설정 (새 프로젝트마다 이 파일만 우선 수정)
- * 경로: /_site.config.php
+ * 사이트 공통 기능 설정
+ *
+ * 지역 사이트 복제 시 이 파일은 수정하지 말고
+ * /_site.clone.config.php 의 지역·SEO 값만 수정합니다.
  */
 if (!defined('_GNUBOARD_')) {
     exit;
 }
 
+$site_clone_config = array();
+$site_clone_file = dirname(__FILE__) . '/_site.clone.config.php';
+if (is_file($site_clone_file)) {
+    $loaded_site_clone_config = include $site_clone_file;
+    if (is_array($loaded_site_clone_config)) {
+        $site_clone_config = $loaded_site_clone_config;
+    }
+}
+
+$clone_value = function ($key, $default = '') use (&$site_clone_config) {
+    return array_key_exists($key, $site_clone_config) ? $site_clone_config[$key] : $default;
+};
+
+$clone_sub_keywords = $clone_value('sub_keywords', array());
+if (is_array($clone_sub_keywords)) {
+    $clone_sub_keywords = implode(',', $clone_sub_keywords);
+}
+
 $site_config = array(
-    'site_name'           => '강동구 하수구막힘 긴급출동',
-    'site_desc'           => '강동구 전 지역 하수구, 싱크대, 변기 막힘 30분 내 긴급출동',
-    'company_name'        => '강동 하수구 해결센터',
-    'ceo_name'            => '김배관',
-    'business_no'         => '123-45-67890',
-    'phone'               => '010-1234-5678',
-    'kakao_url'           => '#kakao-chat',
-    'email'               => 'help@example.com',
-    'address'             => '서울특별시 강동구 천호대로 00길 00',
+    'site_name'           => $clone_value('site_name', '지역 하수구막힘 긴급출동'),
+    'site_desc'           => $clone_value('site_desc', '하수구, 싱크대, 변기 막힘 긴급 상담'),
+    'company_name'        => $clone_value('company_name', '하수구 해결센터'),
+    'ceo_name'            => $clone_value('ceo_name', ''),
+    'business_no'         => $clone_value('business_no', ''),
+    'phone'               => $clone_value('phone', ''),
+    'kakao_url'           => '',
+    'email'               => $clone_value('email', ''),
+    'address'             => $clone_value('address', ''),
     'primary_color'       => '#2563eb',
     'secondary_color'     => '#64748b',
     'logo_path'           => '/img/logo/logo.svg',
     'og_image'            => '/img/common/og-image.jpg',
     /* SEO (components/seo-meta.php) */
-    'seo_title'           => '강동구 하수구막힘 긴급출동',
-    'seo_description'     => '강동구 전 지역 하수구, 싱크대, 변기 막힘 30분 내 긴급출동 서비스',
-    'main_keyword'        => '강동구하수구막힘',
-    'sub_keywords'        => '강동구 싱크대 막힘,강동구 변기 막힘,강동구 배수구 막힘,강동구 하수구 긴급출동',
+    'seo_title'           => $clone_value('seo_title', '지역 하수구막힘 긴급출동'),
+    'seo_description'     => $clone_value('seo_description', '하수구, 싱크대, 변기 막힘 긴급출동 서비스'),
+    'main_keyword'        => $clone_value('main_keyword', '하수구막힘'),
+    'sub_keywords'        => $clone_sub_keywords,
     'robots'              => 'index,follow',
     'consultation_text'   => '긴급출동 상담',
-    'footer_desc'         => '강동구 하수구·싱크대·변기 막힘 긴급출동',
+    'footer_desc'         => $clone_value('footer_desc', '하수구·싱크대·변기 막힘 긴급출동'),
     /* 문의 폼 → inquiry 게시판 (proc/inquiry-submit.php) */
     'inquiry_bo_table'        => 'inquiry',
     'inquiry_notify_enabled'  => true,
@@ -77,7 +97,7 @@ $site_config = array(
     /* RSS · sitemap · robots (lib/seo-feed.lib.php, rss.php, sitemap.php) */
     'seo_feed_enabled'          => true,
     'sitemap_static_pages'      => '',  /* 비우면 /page/*.php 자동 (제외 목록 제외) */
-    'sitemap_exclude_pages'     => '',  /* 추가 제외 경로, 쉼표 구분 */
+    'sitemap_exclude_pages'     => '/page/local.php',  /* 쿼리형 공용 지역 페이지는 sitemap 자동 수집 제외 */
     'sitemap_exclude_boards'    => 'inquiry',  /* 문의 게시판 등 sitemap/RSS 제외 */
     'sitemap_max_posts_per_board' => '500',
     'sitemap_rss_item_limit'    => '50',
@@ -109,8 +129,10 @@ $site_config = array(
     'icrm_hub_enabled'          => true,
     'icrm_hub_geo_button'       => true,
     /* onoff-builder-bridge — 루트 / 를 빌더 페이지로 (project_id) */
-    'home_builder_bridge_id'    => 'gangdong-drain',
+    'home_builder_bridge_id'    => $clone_value('builder_project_id', 'gangdong-drain'),
 );
+
+unset($clone_value, $clone_sub_keywords, $loaded_site_clone_config);
 
 /**
  * 설정값 조회 (없거나 비어 있으면 $default)
@@ -148,6 +170,57 @@ if (!function_exists('g5site_cfg')) {
         }
 
         return (string) $val;
+    }
+}
+
+/**
+ * 빌더 홈에 주입할 공개 설정입니다.
+ * 비밀번호, API 키, 알림 토큰 등 비공개 설정은 절대 포함하지 않습니다.
+ *
+ * @return array
+ */
+if (!function_exists('g5site_public_profile')) {
+    function g5site_public_profile()
+    {
+        global $site_clone_config;
+
+        $clone = isset($site_clone_config) && is_array($site_clone_config)
+            ? $site_clone_config
+            : array();
+
+        $array_value = function ($key) use ($clone) {
+            return isset($clone[$key]) && is_array($clone[$key]) ? array_values($clone[$key]) : array();
+        };
+
+        $sub_keywords = $array_value('sub_keywords');
+        if (!$sub_keywords) {
+            $raw_keywords = g5site_cfg('sub_keywords', '');
+            $sub_keywords = $raw_keywords !== ''
+                ? array_values(array_filter(array_map('trim', explode(',', $raw_keywords))))
+                : array();
+        }
+
+        return array(
+            'regionName'       => isset($clone['region_name']) ? (string) $clone['region_name'] : '지역',
+            'regionShort'      => isset($clone['region_short']) ? (string) $clone['region_short'] : '지역',
+            'regionInitial'    => isset($clone['region_initial']) ? (string) $clone['region_initial'] : '긴',
+            'siteName'         => g5site_cfg('site_name', ''),
+            'siteDescription'  => g5site_cfg('site_desc', ''),
+            'companyName'      => g5site_cfg('company_name', ''),
+            'ceoName'          => g5site_cfg('ceo_name', ''),
+            'businessNumber'   => g5site_cfg('business_no', ''),
+            'phone'            => g5site_cfg('phone', ''),
+            'email'            => g5site_cfg('email', ''),
+            'address'          => g5site_cfg('address', ''),
+            'seoTitle'         => g5site_cfg('seo_title', ''),
+            'seoDescription'   => g5site_cfg('seo_description', ''),
+            'mainKeyword'      => g5site_cfg('main_keyword', ''),
+            'secondaryKeywords'=> $sub_keywords,
+            'localAreas'       => $array_value('local_areas'),
+            'areaSpots'        => $array_value('area_spots'),
+            'reviews'          => $array_value('reviews'),
+            'builderProjectId' => g5site_cfg('home_builder_bridge_id', 'gangdong-drain'),
+        );
     }
 }
 

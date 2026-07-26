@@ -4,9 +4,9 @@
  *
  * 호출 전 설정:
  *   $local_dong_slug  (예: cheonho)
- *   $local_dong_name  (예: 천호동)
+ *   $local_dong_name  (선택 — 없으면 복제 설정에서 조회)
  */
-if (!isset($local_dong_slug, $local_dong_name)) {
+if (!isset($local_dong_slug)) {
     exit;
 }
 
@@ -23,9 +23,25 @@ if (is_file(G5_PATH . '/_site.config.php')) {
 }
 
 $local_dong_slug = preg_replace('/[^a-z0-9-]/', '', strtolower((string) $local_dong_slug));
-$local_dong_name = trim(strip_tags((string) $local_dong_name));
+$local_dong_name = isset($local_dong_name) ? trim(strip_tags((string) $local_dong_name)) : '';
+
+if (function_exists('g5site_public_profile')) {
+    $public_profile = g5site_public_profile();
+    $profile_areas = isset($public_profile['localAreas']) && is_array($public_profile['localAreas'])
+        ? $public_profile['localAreas']
+        : array();
+    foreach ($profile_areas as $profile_area) {
+        if (isset($profile_area['slug'], $profile_area['name'])
+            && (string) $profile_area['slug'] === $local_dong_slug) {
+            $local_dong_name = trim(strip_tags((string) $profile_area['name']));
+            break;
+        }
+    }
+}
+
 if ($local_dong_slug === '' || $local_dong_name === '') {
-    exit;
+    http_response_code(404);
+    exit('등록되지 않은 지역입니다.');
 }
 
 $project_id = function_exists('g5site_cfg') ? g5site_cfg('home_builder_bridge_id', 'gangdong-drain') : 'gangdong-drain';
@@ -72,27 +88,28 @@ if (function_exists('onoff_builder_rewrite_asset_paths')) {
     $html = onoff_builder_rewrite_asset_paths($html, $project_id, $entry);
 }
 
-$site_name = function_exists('g5site_cfg') ? g5site_cfg('site_name', '강동 하수구 해결센터') : '강동 하수구 해결센터';
+$site_name = function_exists('g5site_cfg') ? g5site_cfg('site_name', '하수구 해결센터') : '하수구 해결센터';
 $page_title = $local_dong_name . ' 하수구막힘 긴급출동 | ' . $site_name;
 $page_desc = $local_dong_name . ' 싱크대·변기·배수구·하수구 역류 긴급 상담. 사진 1장으로 빠른 안내.';
-$canonical = (defined('G5_URL') ? G5_URL : '') . '/page/local-' . $local_dong_slug . '.php';
+$canonical_path = isset($local_page_url) && $local_page_url !== ''
+    ? (string) $local_page_url
+    : '/page/local-' . $local_dong_slug . '.php';
+$canonical = (defined('G5_URL') ? G5_URL : '') . $canonical_path;
 
-$title_tag = '<title>' . htmlspecialchars($page_title, ENT_QUOTES, 'UTF-8') . '</title>';
-if (preg_match('/<title>.*?<\/title>/is', $html)) {
-    $html = preg_replace('/<title>.*?<\/title>/is', $title_tag, $html, 1);
-} else {
-    $html = preg_replace('/<head([^>]*)>/i', '<head$1>' . $title_tag, $html, 1);
+if (function_exists('onoff_builder_inject_site_profile')) {
+    $html = onoff_builder_inject_site_profile($html, $project_id, array(
+        'activeArea' => $local_dong_name,
+        'seoTitle' => $page_title,
+        'seoDescription' => $page_desc,
+        'mainKeyword' => $local_dong_name . ' 하수구막힘',
+        'secondaryKeywords' => array(
+            $local_dong_name . ' 싱크대 막힘',
+            $local_dong_name . ' 변기 막힘',
+            $local_dong_name . ' 배수구 막힘',
+        ),
+        'canonical' => $canonical,
+    ));
 }
-
-$meta_block = "\n"
-    . '<meta name="description" content="' . htmlspecialchars($page_desc, ENT_QUOTES, 'UTF-8') . '">' . "\n"
-    . '<meta name="keywords" content="' . htmlspecialchars($local_dong_name . ' 하수구막힘,' . $local_dong_name . ' 싱크대 막힘,' . $local_dong_name . ' 변기 막힘', ENT_QUOTES, 'UTF-8') . '">' . "\n"
-    . '<link rel="canonical" href="' . htmlspecialchars($canonical, ENT_QUOTES, 'UTF-8') . '">' . "\n"
-    . '<meta property="og:title" content="' . htmlspecialchars($page_title, ENT_QUOTES, 'UTF-8') . '">' . "\n"
-    . '<meta property="og:description" content="' . htmlspecialchars($page_desc, ENT_QUOTES, 'UTF-8') . '">' . "\n"
-    . '<script>window.__PINKRIBBON_DONG__=' . json_encode($local_dong_name, JSON_UNESCAPED_UNICODE) . ';</script>' . "\n";
-
-$html = preg_replace('/<head([^>]*)>/i', '<head$1>' . $meta_block, $html, 1);
 
 header('Content-Type: text/html; charset=utf-8');
 echo $html;

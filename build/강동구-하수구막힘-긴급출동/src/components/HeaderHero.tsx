@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Phone, FormInput, ArrowDown, CheckCircle2, ShieldCheck, Clock, MapPin, Wrench } from 'lucide-react';
-import { contactInfo, getDongFromUrl, phoneCtaLabel, telHref } from '../data';
+import { assetUrl, contactInfo, getDongFromUrl, phoneCtaLabel, regionInitial, regionName, telHref } from '../data';
 import { TrustSignals } from './Conversion';
 
 export const Header = () => {
@@ -8,14 +8,14 @@ export const Header = () => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
-  const area = getDongFromUrl() || '강동구';
+  const area = getDongFromUrl() || regionName;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
         <a href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 md:w-10 md:h-10 bg-slate-900 rounded-lg flex items-center justify-center shadow-md">
-            <span className="text-white font-bold text-lg md:text-xl">강</span>
+            <span className="text-white font-bold text-lg md:text-xl">{regionInitial}</span>
           </div>
           <div>
             <span className="font-extrabold text-lg md:text-2xl tracking-tight text-slate-900 leading-none">{contactInfo.companyName}</span>
@@ -56,14 +56,14 @@ export const Hero = () => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
-  const area = getDongFromUrl() || '강동구';
+  const area = getDongFromUrl() || regionName;
 
   return (
     <>
       <section className="relative min-h-[720px] md:min-h-[780px] flex items-end overflow-hidden bg-slate-950 pt-24">
         <img
-          src="/plugin/onoff-builder-bridge/imports/gangdong-drain/images/drain-hero.webp"
-          alt="강동구 하수구 전문 기사의 배관 내시경 점검"
+          src={assetUrl('drain-hero.webp')}
+          alt={`${regionName} 하수구 전문 기사의 배관 내시경 점검`}
           className="absolute inset-0 w-full h-full object-cover object-[68%_center]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/75 to-slate-950/5" />
@@ -85,7 +85,7 @@ export const Hero = () => {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.08] mb-5 tracking-[-0.04em] break-keep">
-              막힌 배관,<br />
+              {area} 하수구 막힘,<br />
               <span className="text-orange-500">안쪽까지 봐야</span><br />
               해결됩니다
             </h1>
@@ -135,7 +135,7 @@ export const Hero = () => {
           <div className="hidden lg:block w-1 h-1 rounded-full bg-slate-700" />
           <div className="flex items-center gap-2.5 text-white font-bold text-sm md:text-base">
             <MapPin className="w-5 h-5 text-orange-500" />
-            <span>{area} · 강동구 전지역</span>
+            <span>{area === regionName ? `${regionName} 전지역` : `${area} · ${regionName}`}</span>
           </div>
           <div className="hidden lg:block w-1 h-1 rounded-full bg-slate-700" />
           <div className="flex items-center gap-2.5 text-white font-bold text-sm md:text-base">
@@ -154,7 +154,7 @@ export const Hero = () => {
 };
 
 export const MobileBottomBar = () => {
-  const area = getDongFromUrl() || '강동구';
+  const area = getDongFromUrl() || regionName;
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 flex pb-safe shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)]">
       <a href={telHref()} className="flex-[1.4] py-3 flex flex-col items-center justify-center gap-1 bg-orange-500 text-white">

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, ShieldAlert, PhoneCall, Camera } from 'lucide-react';
-import { contactInfo, getDongFromUrl, phoneCtaLabel, telHref } from '../data';
+import { assetUrl, contactInfo, getDongFromUrl, keywords, phoneCtaLabel, regionName, telHref } from '../data';
 
 export const Notices = () => {
   const promises = [
@@ -16,7 +16,7 @@ export const Notices = () => {
         <div className="grid lg:grid-cols-2 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-slate-950 shadow-2xl">
           <div className="relative min-h-[380px] lg:min-h-[600px]">
             <img
-              src="/plugin/onoff-builder-bridge/imports/gangdong-drain/images/commercial-drain.webp"
+              src={assetUrl('commercial-drain.webp')}
               alt="상가 하수구 현장 점검"
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -54,8 +54,8 @@ export const Notices = () => {
 export const FAQ = () => {
   const faqs = [
     {
-      q: "강동구 전지역 상담 가능한가요?",
-      a: "강동구 주요 지역의 하수구 막힘, 싱크대 막힘, 변기 막힘, 배수구 막힘 증상 상담이 가능합니다. 정확한 가능 여부는 위치와 시간에 따라 안내드립니다."
+      q: `${regionName} 전지역 상담 가능한가요?`,
+      a: `${regionName} 주요 지역의 하수구 막힘, 싱크대 막힘, 변기 막힘, 배수구 막힘 증상 상담이 가능합니다. 정확한 가능 여부는 위치와 시간에 따라 안내드립니다.`
     },
     {
       q: "하수구 막힘 비용은 얼마인가요?",
@@ -94,7 +94,7 @@ export const FAQ = () => {
       <div className="max-w-3xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-5">
-            강동구하수구막힘 자주 묻는 질문
+            {keywords.main} 자주 묻는 질문
           </h2>
         </div>
 
@@ -145,10 +145,10 @@ export const FAQ = () => {
 };
 
 export const FinalCTA = () => {
-  const area = getDongFromUrl() || '강동구';
+  const area = getDongFromUrl() || regionName;
   return (
     <section id="contact" className="py-24 md:py-32 bg-slate-900 relative overflow-hidden scroll-mt-20">
-      <img src="/plugin/onoff-builder-bridge/imports/gangdong-drain/images/drain-hero.webp" alt="" className="absolute inset-0 w-full h-full object-cover object-[70%_center]" />
+      <img src={assetUrl('drain-hero.webp')} alt="" className="absolute inset-0 w-full h-full object-cover object-[70%_center]" />
       <div className="absolute inset-0 bg-slate-950/80"></div>
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight break-keep">

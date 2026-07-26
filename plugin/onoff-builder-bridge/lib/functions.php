@@ -738,6 +738,107 @@ if (!function_exists('onoff_builder_resolve_import_index_file')) {
     }
 }
 
+if (!function_exists('onoff_builder_inject_site_profile')) {
+    /**
+     * 복제 사이트 공개 변수와 홈 SEO 메타를 정적 빌더 HTML에 주입합니다.
+     *
+     * @param string $html
+     * @param string $id
+     * @param array  $overrides 지역 상세 페이지용 덮어쓰기
+     * @return string
+     */
+    function onoff_builder_inject_site_profile($html, $id, $overrides = array())
+    {
+        if (!function_exists('g5site_public_profile') && defined('G5_PATH')) {
+            $site_config_file = G5_PATH . '/_site.config.php';
+            if (is_file($site_config_file)) {
+                include_once $site_config_file;
+            }
+        }
+
+        if (!function_exists('g5site_public_profile')) {
+            return $html;
+        }
+
+        $profile = g5site_public_profile();
+        if (!is_array($profile)) {
+            $profile = array();
+        }
+        if (is_array($overrides)) {
+            $profile = array_merge($profile, $overrides);
+        }
+
+        $id = onoff_builder_sanitize_project_id($id);
+        $profile['assetBase'] = rtrim(ONOFF_BUILDER_IMPORTS_URL, '/') . '/' . rawurlencode($id);
+
+        $site_url = defined('G5_URL') ? rtrim((string) G5_URL, '/') : '';
+        if ($site_url === '' && !empty($_SERVER['HTTP_HOST'])) {
+            $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
+            $site_url = ($https ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
+        }
+
+        $title = isset($profile['seoTitle']) ? trim((string) $profile['seoTitle']) : '';
+        $description = isset($profile['seoDescription']) ? trim((string) $profile['seoDescription']) : '';
+        $main_keyword = isset($profile['mainKeyword']) ? trim((string) $profile['mainKeyword']) : '';
+        $secondary = isset($profile['secondaryKeywords']) && is_array($profile['secondaryKeywords'])
+            ? $profile['secondaryKeywords']
+            : array();
+        $keywords = implode(',', array_filter(array_merge(array($main_keyword), $secondary)));
+        $canonical = isset($profile['canonical']) && $profile['canonical'] !== ''
+            ? (string) $profile['canonical']
+            : $site_url . '/';
+
+        $escape = function ($value) {
+            return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+        };
+
+        // 빌드 시점의 기본 메타를 제거하고 복사 사이트 설정으로 교체합니다.
+        $html = preg_replace('/<title\b[^>]*>.*?<\/title>/is', '', $html);
+        $html = preg_replace('/<meta\b[^>]*(?:name|property)=["\'](?:description|keywords|robots|og:title|og:description|og:url)["\'][^>]*>\s*/i', '', $html);
+        $html = preg_replace('/<link\b[^>]*rel=["\']canonical["\'][^>]*>\s*/i', '', $html);
+
+        $json_options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
+        $profile_json = json_encode($profile, $json_options);
+        if ($profile_json === false) {
+            $profile_json = '{}';
+        }
+
+        $schema = array(
+            '@context' => 'https://schema.org',
+            '@type' => 'LocalBusiness',
+            'name' => isset($profile['companyName']) ? (string) $profile['companyName'] : $title,
+            'url' => $canonical,
+            'telephone' => isset($profile['phone']) ? (string) $profile['phone'] : '',
+            'address' => array(
+                '@type' => 'PostalAddress',
+                'streetAddress' => isset($profile['address']) ? (string) $profile['address'] : '',
+                'addressRegion' => isset($profile['regionName']) ? (string) $profile['regionName'] : '',
+                'addressCountry' => 'KR',
+            ),
+        );
+        $schema_json = json_encode($schema, $json_options);
+        if ($schema_json === false) {
+            $schema_json = '{}';
+        }
+
+        $head = "\n"
+            . '<title>' . $escape($title) . '</title>' . "\n"
+            . '<meta name="description" content="' . $escape($description) . '">' . "\n"
+            . '<meta name="keywords" content="' . $escape($keywords) . '">' . "\n"
+            . '<meta name="robots" content="index,follow">' . "\n"
+            . '<link rel="canonical" href="' . $escape($canonical) . '">' . "\n"
+            . '<meta property="og:type" content="website">' . "\n"
+            . '<meta property="og:title" content="' . $escape($title) . '">' . "\n"
+            . '<meta property="og:description" content="' . $escape($description) . '">' . "\n"
+            . '<meta property="og:url" content="' . $escape($canonical) . '">' . "\n"
+            . '<script>window.__SITE_CONFIG__=' . $profile_json . ';</script>' . "\n"
+            . '<script type="application/ld+json">' . $schema_json . '</script>' . "\n";
+
+        return preg_replace('/<head([^>]*)>/i', '<head$1>' . $head, $html, 1);
+    }
+}
+
 if (!function_exists('onoff_builder_render_import_page')) {
     function onoff_builder_render_import_page($id)
     {
@@ -791,6 +892,7 @@ if (!function_exists('onoff_builder_render_import_page')) {
 
         $html = onoff_builder_remove_base_tags($html);
         $html = onoff_builder_rewrite_asset_paths($html, $id, $entry);
+        $html = onoff_builder_inject_site_profile($html, $id);
 
         header('Content-Type: text/html; charset=utf-8');
         echo $html;
