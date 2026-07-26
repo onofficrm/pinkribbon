@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Phone, FormInput, ArrowDown, CheckCircle2, ShieldCheck, Clock, MapPin, Wrench } from 'lucide-react';
-import { assetUrl, contactInfo, getDongFromUrl, phoneCtaLabel, phoneCtaSubLabel, regionInitial, regionName, telHref } from '../data';
+import { assetUrl, contactInfo, getDongFromUrl, heroLine, keywords, pageIntro, phoneCtaLabel, phoneCtaSubLabel, regionInitial, regionName, telHref } from '../data';
 import { TrustSignals } from './Conversion';
 
 export const Header = () => {
@@ -19,15 +19,18 @@ export const Header = () => {
           </div>
           <div>
             <span className="font-extrabold text-lg md:text-2xl tracking-tight text-slate-900 leading-none">{contactInfo.companyName}</span>
-            <p className="hidden md:block text-[11px] text-slate-500 font-medium mt-0.5 tracking-tight">{area} 하수구 막힘 상담</p>
+            <p className="hidden md:block text-[11px] text-slate-500 font-medium mt-0.5 tracking-tight">{area} 하수구청소 · {contactInfo.siteName}</p>
           </div>
         </a>
 
         <nav className="hidden lg:flex items-center gap-7">
           <button onClick={() => scrollTo('services')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">서비스</button>
+          <button onClick={() => scrollTo('howto')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">대처법</button>
+          <button onClick={() => scrollTo('compare')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">뚫기vs청소</button>
           <button onClick={() => scrollTo('inquiry-form')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">사진상담</button>
           <button onClick={() => scrollTo('areas')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">출동지역</button>
           <a href="/bbs/board.php?bo_table=notice" className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">시공사례</a>
+          <a href="/page/about.php" className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">소개</a>
           <button onClick={() => scrollTo('reviews')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">후기</button>
           <button onClick={() => scrollTo('faq')} className="text-sm font-bold text-slate-700 hover:text-orange-500 transition-colors">FAQ</button>
         </nav>
@@ -88,18 +91,27 @@ export const Hero = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-500" />
               </span>
-              {area} 전지역 긴급 상담
+              {contactInfo.siteName} · {area} 하수구청소
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.08] mb-5 tracking-[-0.04em] break-keep">
-              {area} 하수구 막힘,<br />
-              <span className="text-orange-500">안쪽까지 봐야</span><br />
-              해결됩니다
+              {area === regionName ? keywords.main : `${area} 하수구청소`},<br />
+              <span className="text-orange-500">배관 안까지</span><br />
+              깨끗하게
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-200 mb-6 font-semibold break-keep">
-              싱크대 · 변기 · 배수구 · 하수구 역류
+            <p className="text-lg md:text-xl text-slate-200 mb-4 font-semibold break-keep">
+              {heroLine || '싱크대 · 배수구 · 변기 · 정화조 청소·점검'}
             </p>
+            {pageIntro ? (
+              <p className="text-base md:text-lg text-slate-300 mb-6 font-medium break-keep leading-relaxed max-w-xl">
+                {pageIntro}
+              </p>
+            ) : (
+              <p className="text-base md:text-lg text-slate-300 mb-6 font-medium break-keep">
+                막힘만 뚫지 않고, 오염·악취·역류 원인까지 점검합니다.
+              </p>
+            )}
 
             <div className="mb-7">
               <TrustSignals />
@@ -158,7 +170,7 @@ export const Hero = () => {
           <div className="hidden lg:block w-1 h-1 rounded-full bg-slate-700" />
           <div className="flex items-center gap-2.5 text-white font-bold text-sm md:text-base">
             <Wrench className="w-5 h-5 text-orange-500" />
-            <span>하수구 역류 상담</span>
+            <span>하수구청소·역류 상담</span>
           </div>
         </div>
       </div>

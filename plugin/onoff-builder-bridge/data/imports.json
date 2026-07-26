@@ -8,10 +8,10 @@
   },
   {
     "id": "gangdong-drain",
-    "name": "강동구 하수구막힘 긴급출동",
+    "name": "원진하수구 · 강동구하수구청소",
     "path": "gangdong-drain",
     "entry": "index.html",
     "created_at": "2026-07-24 18:32:00",
-    "updated_at": "2026-07-25 19:23:30"
+    "updated_at": "2026-07-26 19:30:00"
   }
 ]

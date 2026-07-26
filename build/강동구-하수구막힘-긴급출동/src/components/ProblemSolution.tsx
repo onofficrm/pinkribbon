@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { AlertTriangle, Bath, CheckCircle2, Droplets, PhoneCall, Store, Waves } from 'lucide-react';
-import { assetUrl, phoneCtaLabel, phoneCtaSubLabel, regionName, telHref } from '../data';
+import { assetUrl, phoneCtaLabel, phoneCtaSubLabel, regionName, serviceHubs, telHref } from '../data';
 
 const symptomItems = [
   { icon: Droplets, title: '물이 천천히 내려가요' },
@@ -62,50 +62,64 @@ export const Symptoms = () => (
   </section>
 );
 
-const services = [
+const fallbackServices = [
   {
     image: assetUrl('sink-service.webp'),
     icon: Droplets,
-    title: '싱크대·주방 배관',
-    caption: '느린 배수 · 기름때 · 반복 막힘',
+    title: '강동구 싱크대청소',
+    caption: '느린 배수 · 기름때 · 주방 배관',
+    href: '/page/service-sink.php',
   },
   {
     image: assetUrl('drain-equipment.webp'),
     icon: Waves,
-    title: '하수구·배수구',
+    title: '강동구 배수구청소',
     caption: '역류 · 악취 · 내부 배관 점검',
+    href: '/page/service-drain.php',
   },
   {
     image: assetUrl('commercial-drain.webp'),
     icon: Store,
-    title: '음식점·상가',
-    caption: '영업장 주방 · 바닥 배수 · 긴급 작업',
+    title: '강동구 정화조청소',
+    caption: '정화조 · 외부 배수 · 점검 상담',
+    href: '/page/service-septic.php',
   },
 ];
 
-export const Services = () => (
+export const Services = () => {
+  const hubCards = serviceHubs.length >= 3
+    ? serviceHubs.slice(0, 3).map((hub, idx) => ({
+        image: fallbackServices[idx]?.image || assetUrl('drain-equipment.webp'),
+        icon: [Droplets, Waves, Store][idx] || Droplets,
+        title: hub.label || hub.name,
+        caption: hub.hero_line || hub.name,
+        href: hub.url || `/page/service-${hub.slug}.php`,
+      }))
+    : fallbackServices;
+
+  return (
   <section id="services" className="py-20 md:py-28 bg-slate-950 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-4">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-10 md:mb-14">
         <div>
           <p className="text-orange-400 font-extrabold tracking-widest text-sm mb-3">SERVICE</p>
-          <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight break-keep">현장에 맞는 전문 작업</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight break-keep">서비스별 하수구청소</h2>
         </div>
-        <p className="text-slate-400 font-medium md:text-right break-keep">사진으로 증상을 확인하고<br className="hidden md:block" /> 필요한 장비를 준비합니다.</p>
+        <p className="text-slate-400 font-medium md:text-right break-keep">싱크대·배수구·정화조 허브 페이지에서<br className="hidden md:block" /> 증상별 상담이 가능합니다.</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
-        {services.map(({ image, icon: Icon, title, caption }, idx) => (
+        {hubCards.map(({ image, icon: Icon, title, caption, href }, idx) => (
           <motion.a
             key={title}
-            href={telHref()}
+            href={href}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.08 }}
             className="group relative min-h-[420px] md:min-h-[520px] overflow-hidden rounded-[2rem] bg-slate-800"
           >
-            <img src={image} alt={title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src={image} alt={`${title} 안내`} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/15 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
               <span className="mb-4 flex items-center justify-center w-12 h-12 rounded-2xl bg-orange-500 text-white shadow-lg">
@@ -114,7 +128,7 @@ export const Services = () => (
               <h3 className="text-2xl md:text-3xl font-black text-white mb-2">{title}</h3>
               <p className="text-slate-300 font-semibold break-keep">{caption}</p>
               <span className="mt-5 inline-flex items-center gap-2 text-orange-400 font-extrabold">
-                상담하기 <PhoneCall className="w-4 h-4" />
+                자세히 보기 <PhoneCall className="w-4 h-4" />
               </span>
             </div>
           </motion.a>
@@ -122,7 +136,8 @@ export const Services = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export const ContextTypes = () => (
   <section id="context" className="py-16 md:py-20 bg-orange-500 scroll-mt-20">

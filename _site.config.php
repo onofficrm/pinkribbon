@@ -30,9 +30,9 @@ if (is_array($clone_sub_keywords)) {
 }
 
 $site_config = array(
-    'site_name'           => $clone_value('site_name', '지역 하수구막힘 긴급출동'),
-    'site_desc'           => $clone_value('site_desc', '하수구, 싱크대, 변기 막힘 긴급 상담'),
-    'company_name'        => $clone_value('company_name', '하수구 해결센터'),
+    'site_name'           => $clone_value('site_name', '원진하수구'),
+    'site_desc'           => $clone_value('site_desc', '하수구·싱크대·배수구 청소 상담'),
+    'company_name'        => $clone_value('company_name', '원진하수구'),
     'ceo_name'            => $clone_value('ceo_name', ''),
     'business_no'         => $clone_value('business_no', ''),
     'phone'               => $clone_value('phone', ''),
@@ -44,13 +44,13 @@ $site_config = array(
     'logo_path'           => '/img/logo/logo.svg',
     'og_image'            => '/img/common/og-image.jpg',
     /* SEO (components/seo-meta.php) */
-    'seo_title'           => $clone_value('seo_title', '지역 하수구막힘 긴급출동'),
-    'seo_description'     => $clone_value('seo_description', '하수구, 싱크대, 변기 막힘 긴급출동 서비스'),
-    'main_keyword'        => $clone_value('main_keyword', '하수구막힘'),
+    'seo_title'           => $clone_value('seo_title', '지역하수구청소 | 원진하수구'),
+    'seo_description'     => $clone_value('seo_description', '하수구·싱크대·배수구 청소와 악취·역류 점검 상담'),
+    'main_keyword'        => $clone_value('main_keyword', '하수구청소'),
     'sub_keywords'        => $clone_sub_keywords,
     'robots'              => 'index,follow',
     'consultation_text'   => '긴급출동 상담',
-    'footer_desc'         => $clone_value('footer_desc', '하수구·싱크대·변기 막힘 긴급출동'),
+    'footer_desc'         => $clone_value('footer_desc', '하수구·싱크대·배수구 청소 상담'),
     /* 문의 폼 → inquiry 게시판 (proc/inquiry-submit.php) */
     'inquiry_bo_table'        => 'inquiry',
     'inquiry_notify_enabled'  => true,
@@ -202,10 +202,24 @@ if (!function_exists('g5site_public_profile')) {
                 : array();
         }
 
+        $area_content = isset($clone['area_content']) && is_array($clone['area_content'])
+            ? $clone['area_content']
+            : array();
+
+        $og_image = g5site_cfg_url('og_image', '');
+        if ($og_image === '' && function_exists('g5site_cfg')) {
+            $og_path = g5site_cfg('og_image', '/img/common/og-image.jpg');
+            if ($og_path !== '' && defined('G5_URL')) {
+                $og_image = (strpos($og_path, 'http') === 0)
+                    ? $og_path
+                    : rtrim(G5_URL, '/') . (strpos($og_path, '/') === 0 ? '' : '/') . $og_path;
+            }
+        }
+
         return array(
             'regionName'       => isset($clone['region_name']) ? (string) $clone['region_name'] : '지역',
             'regionShort'      => isset($clone['region_short']) ? (string) $clone['region_short'] : '지역',
-            'regionInitial'    => isset($clone['region_initial']) ? (string) $clone['region_initial'] : '긴',
+            'regionInitial'    => isset($clone['region_initial']) ? (string) $clone['region_initial'] : '원',
             'siteName'         => g5site_cfg('site_name', ''),
             'siteDescription'  => g5site_cfg('site_desc', ''),
             'companyName'      => g5site_cfg('company_name', ''),
@@ -219,9 +233,25 @@ if (!function_exists('g5site_public_profile')) {
             'mainKeyword'      => g5site_cfg('main_keyword', ''),
             'secondaryKeywords'=> $sub_keywords,
             'localAreas'       => $array_value('local_areas'),
+            'neighborAreas'    => $array_value('neighbor_areas'),
+            'serviceHubs'      => $array_value('service_hubs'),
             'areaSpots'        => $array_value('area_spots'),
+            'areaContent'      => $area_content,
             'reviews'          => $array_value('reviews'),
+            'caseStudies'      => $array_value('case_studies'),
+            'homeFaqs'         => $array_value('home_faqs'),
+            'howToSteps'       => $array_value('how_to_steps'),
+            'howToName'        => isset($clone['how_to_name']) ? (string) $clone['how_to_name'] : '하수구가 막혔을 때 대처 방법',
+            'siteDefinition'   => isset($clone['site_definition']) ? (string) $clone['site_definition'] : '',
+            'openingHours'     => isset($clone['opening_hours']) ? (string) $clone['opening_hours'] : 'Mo-Su 00:00-23:59',
+            'priceRange'       => isset($clone['price_range']) ? (string) $clone['price_range'] : '상담 후 안내',
+            'ogImage'          => $og_image,
             'builderProjectId' => g5site_cfg('home_builder_bridge_id', 'gangdong-drain'),
+            'pageIntro'        => '',
+            'heroLine'         => '',
+            'pageFaqs'         => array(),
+            'serviceName'      => '',
+            'breadcrumbLabel'  => '',
         );
     }
 }

@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Wrench, Search, MapPin, ShieldCheck, CheckCircle2, Info, PhoneCall, MessageSquare, ClipboardList, Sparkles } from 'lucide-react';
-import { areaSpots, assetUrl, localAreas, localAreaUrl, phoneCtaLabel, phoneCtaSubLabel, regionName, telHref } from '../data';
+import { areaSpots, assetUrl, localAreas, localAreaUrl, neighborAreas, phoneCtaLabel, phoneCtaSubLabel, regionName, telHref } from '../data';
 
 export const Equipment = () => {
   return (
@@ -46,8 +46,8 @@ export const Equipment = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6 break-keep">
-                반복되는 하수구 막힘,<br />
-                <span className="text-slate-900 underline decoration-orange-500 decoration-4 underline-offset-4">원인 확인이 중요합니다</span>
+                반복되는 배수 문제,<br />
+                <span className="text-slate-900 underline decoration-orange-500 decoration-4 underline-offset-4">청소·점검이 중요합니다</span>
               </h2>
               <p className="text-slate-600 text-lg font-medium leading-relaxed mb-10 break-keep">
                 한 번 뚫었다고 끝나는 문제가 아닐 수 있습니다.<br className="hidden sm:block" />
@@ -57,19 +57,19 @@ export const Equipment = () => {
               <div className="space-y-8 mb-10">
                 <div className="relative pl-6 before:absolute before:left-0 before:top-1.5 before:w-1.5 before:h-1.5 before:bg-orange-500 before:rounded-full">
                   <h3 className="text-xl font-bold text-slate-900 mb-2">
-                    전문 장비로 막힘 위치 확인
+                    전문 장비로 오염·막힘 위치 확인
                   </h3>
                   <p className="text-slate-600 font-medium break-keep leading-relaxed text-base">
-                    눈에 보이는 입구만 확인하는 것이 아니라, 막힘이 발생한 위치와 배관 흐름을 함께 확인하는 것이 중요합니다.
+                    눈에 보이는 입구만 확인하는 것이 아니라, 배관 내부 오염과 흐름을 함께 확인하는 것이 중요합니다.
                   </p>
                 </div>
                 
                 <div className="relative pl-6 before:absolute before:left-0 before:top-1.5 before:w-1.5 before:h-1.5 before:bg-orange-500 before:rounded-full">
                   <h3 className="text-xl font-bold text-slate-900 mb-2">
-                    현장 상황에 맞는 작업 안내
+                    현장 상황에 맞는 청소 안내
                   </h3>
                   <p className="text-slate-600 font-medium break-keep leading-relaxed text-base">
-                    싱크대, 변기, 욕실, 세탁실, 상가 배관 등 현장마다 막힘 원인이 다르기 때문에 상황에 맞는 방식으로 안내합니다.
+                    싱크대, 변기, 욕실, 세탁실, 상가 배관 등 현장마다 원인이 다르기 때문에 상황에 맞는 청소·점검 방식을 안내합니다.
                   </p>
                 </div>
 
@@ -91,10 +91,10 @@ export const Equipment = () => {
                 </h4>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-4">
                   {[
-                    "막힘 위치 확인",
+                    "오염·막힘 위치 확인",
                     "배관 내부 상태 점검",
                     "악취 및 역류 원인 확인",
-                    "현장 상황별 작업 안내",
+                    "현장별 청소 범위 안내",
                     "작업 후 배수 상태 확인"
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-center gap-3 text-slate-200 font-medium text-sm md:text-base">
@@ -109,7 +109,7 @@ export const Equipment = () => {
               <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-5 mb-8 flex items-start gap-3">
                 <Info className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
                 <p className="text-yellow-800 text-sm font-bold leading-relaxed break-keep">
-                  정확한 비용과 작업 방식은 현장 상태, 막힘 정도, 배관 구조에 따라 달라질 수 있습니다.
+                  정확한 비용과 작업 방식은 현장 상태, 오염 정도, 배관 구조에 따라 달라질 수 있습니다.
                 </p>
               </div>
 
@@ -137,7 +137,7 @@ export const Process = () => {
       num: "01",
       icon: <MessageSquare className="w-6 h-6" />,
       title: "상담 접수",
-      desc: "전화상담 또는 사진 문의폼으로 현재 막힘 증상을 알려주세요."
+      desc: "전화상담 또는 사진 문의폼으로 현재 배수·청소 증상을 알려주세요."
     },
     {
       num: "02",
@@ -155,7 +155,7 @@ export const Process = () => {
       num: "04",
       icon: <Wrench className="w-6 h-6" />,
       title: "전문 장비 작업",
-      desc: "현장 상황에 따라 필요한 장비와 방식으로 막힘 문제를 처리합니다."
+      desc: "현장 상황에 따라 필요한 장비와 방식으로 청소·점검을 진행합니다."
     },
     {
       num: "05",
@@ -257,18 +257,19 @@ export const Areas = () => {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center lg:items-start">
           <div className="w-full lg:w-3/5">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 rounded-full text-orange-600 font-bold text-sm mb-6 border border-orange-100 shadow-sm">
-              <MapPin className="w-4 h-4" /> {regionName} 전지역 출동
+              <MapPin className="w-4 h-4" /> {regionName} 전지역 · 인접 지역 상담
             </div>
 
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6 break-keep">
-              동별 랜딩으로<br className="hidden sm:block" />
-              <span className="underline decoration-orange-500 decoration-4 underline-offset-4">우리 동네 상담</span>
+              동별·주변 지역<br className="hidden sm:block" />
+              <span className="underline decoration-orange-500 decoration-4 underline-offset-4">하수구청소 페이지</span>
             </h2>
 
             <p className="text-slate-600 text-lg font-bold mb-6 break-keep">
-              {areaSummary || regionName} 등 지역별 페이지에서 바로 전화·사진 상담이 가능합니다.
+              {areaSummary || regionName} 등 {regionName} 동별 페이지와 인접 지역 페이지에서 바로 전화·사진 상담이 가능합니다.
             </p>
 
+            <p className="text-slate-500 text-sm font-bold mb-3">{regionName} 동별</p>
             <div className="flex flex-wrap gap-2 md:gap-3 mb-6">
               {localAreas.map((area) => (
                 <a
@@ -276,10 +277,27 @@ export const Areas = () => {
                   href={localAreaUrl(area)}
                   className="px-4 py-2.5 bg-white border border-slate-200 text-slate-800 rounded-xl font-extrabold text-sm shadow-sm hover:border-orange-400 hover:text-orange-600 transition-colors"
                 >
-                  {area.name}
+                  {area.label || area.name}
                 </a>
               ))}
             </div>
+
+            {neighborAreas.length > 0 && (
+              <>
+                <p className="text-slate-500 text-sm font-bold mb-3">주변 지역</p>
+                <div className="flex flex-wrap gap-2 md:gap-3 mb-6">
+                  {neighborAreas.map((area) => (
+                    <a
+                      key={area.slug}
+                      href={localAreaUrl(area)}
+                      className="px-4 py-2.5 bg-orange-50 border border-orange-100 text-orange-800 rounded-xl font-extrabold text-sm shadow-sm hover:border-orange-400 hover:text-orange-600 transition-colors"
+                    >
+                      {area.label || area.name}
+                    </a>
+                  ))}
+                </div>
+              </>
+            )}
 
             <div className="flex flex-wrap gap-2 mb-8">
               {areaSpots.map((name) => (
@@ -292,7 +310,7 @@ export const Areas = () => {
             <div className="flex items-start gap-3 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
               <Info className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
               <p className="text-slate-600 font-medium text-sm md:text-base leading-relaxed break-keep">
-                목록에 없어도 {regionName} 인근이면 상담 가능합니다. 위치와 증상을 알려주세요.
+                목록에 없어도 {regionName}·인접 지역이면 상담 가능합니다. 위치와 증상을 알려주세요.
               </p>
             </div>
           </div>
@@ -306,12 +324,12 @@ export const Areas = () => {
               </div>
 
               <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4 leading-snug break-keep">
-                우리 동네도 상담 가능한지<br />
-                확인해보세요
+                우리 동네 하수구청소<br />
+                상담 가능한지 확인하세요
               </h3>
 
               <p className="text-slate-300 font-medium mb-10 break-keep">
-                현장 위치와 막힘 증상을 알려주시면<br />
+                현장 위치와 배수 증상을 알려주시면<br />
                 빠르게 안내해 드리겠습니다.
               </p>
 

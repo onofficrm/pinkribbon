@@ -1,10 +1,11 @@
 <?php
 /**
- * 강동구 동별 하수구 랜딩 — 빌더 홈 렌더 + 동 이름 주입
+ * 지역·동별 하수구청소 랜딩 — 빌더 홈 렌더 + 지역 고유 SEO/본문 주입
  *
  * 호출 전 설정:
- *   $local_dong_slug  (예: cheonho)
+ *   $local_dong_slug  (예: cheonho, songpa)
  *   $local_dong_name  (선택 — 없으면 복제 설정에서 조회)
+ *   $local_page_url   (선택 — canonical 경로)
  */
 if (!isset($local_dong_slug)) {
     exit;
@@ -24,17 +25,49 @@ if (is_file(G5_PATH . '/_site.config.php')) {
 
 $local_dong_slug = preg_replace('/[^a-z0-9-]/', '', strtolower((string) $local_dong_slug));
 $local_dong_name = isset($local_dong_name) ? trim(strip_tags((string) $local_dong_name)) : '';
+$local_area_label = '';
+$is_neighbor_area = false;
+
+$resolve_area_from_list = function ($areas, $slug) {
+    if (!is_array($areas)) {
+        return null;
+    }
+    foreach ($areas as $row) {
+        if (!is_array($row) || !isset($row['slug'], $row['name'])) {
+            continue;
+        }
+        if ((string) $row['slug'] === $slug) {
+            return $row;
+        }
+    }
+    return null;
+};
 
 if (function_exists('g5site_public_profile')) {
     $public_profile = g5site_public_profile();
     $profile_areas = isset($public_profile['localAreas']) && is_array($public_profile['localAreas'])
         ? $public_profile['localAreas']
         : array();
-    foreach ($profile_areas as $profile_area) {
-        if (isset($profile_area['slug'], $profile_area['name'])
-            && (string) $profile_area['slug'] === $local_dong_slug) {
-            $local_dong_name = trim(strip_tags((string) $profile_area['name']));
-            break;
+    $neighbor_areas = isset($public_profile['neighborAreas']) && is_array($public_profile['neighborAreas'])
+        ? $public_profile['neighborAreas']
+        : array();
+
+    $matched = $resolve_area_from_list($profile_areas, $local_dong_slug);
+    if ($matched) {
+        $local_dong_name = trim(strip_tags((string) $matched['name']));
+        $local_area_label = isset($matched['label']) ? trim(strip_tags((string) $matched['label'])) : '';
+        if (isset($matched['url']) && (!isset($local_page_url) || $local_page_url === '')) {
+            $local_page_url = (string) $matched['url'];
+        }
+    } else {
+        $matched = $resolve_area_from_list($neighbor_areas, $local_dong_slug);
+        if ($matched) {
+            $is_neighbor_area = true;
+            $local_dong_name = trim(strip_tags((string) $matched['name']));
+            $local_area_label = isset($matched['label']) ? trim(strip_tags((string) $matched['label'])) : '';
+            if (isset($matched['url']) && (!isset($local_page_url) || $local_page_url === '')) {
+                $local_page_url = (string) $matched['url'];
+            }
         }
     }
 }
@@ -88,26 +121,71 @@ if (function_exists('onoff_builder_rewrite_asset_paths')) {
     $html = onoff_builder_rewrite_asset_paths($html, $project_id, $entry);
 }
 
-$site_name = function_exists('g5site_cfg') ? g5site_cfg('site_name', '하수구 해결센터') : '하수구 해결센터';
-$page_title = $local_dong_name . ' 하수구막힘 긴급출동 | ' . $site_name;
-$page_desc = $local_dong_name . ' 싱크대·변기·배수구·하수구 역류 긴급 상담. 사진 1장으로 빠른 안내.';
+$site_name = function_exists('g5site_cfg') ? g5site_cfg('site_name', '원진하수구') : '원진하수구';
+$main_kw = $local_area_label !== '' ? $local_area_label : ($local_dong_name . ' 하수구청소');
+$page_title = $main_kw . ' | ' . $site_name;
+$page_desc = $local_dong_name . ' 하수구청소 · 싱크대·배수구·변기·정화조 청소 상담. 원진하수구가 사진 한 장으로 빠르게 안내합니다.';
+
 $canonical_path = isset($local_page_url) && $local_page_url !== ''
     ? (string) $local_page_url
     : '/page/local-' . $local_dong_slug . '.php';
 $canonical = (defined('G5_URL') ? G5_URL : '') . $canonical_path;
+
+$page_intro = '';
+$hero_line = '';
+$page_faqs = array();
+$area_content_map = array();
+if (function_exists('g5site_public_profile')) {
+    $profile_for_content = g5site_public_profile();
+    if (isset($profile_for_content['areaContent']) && is_array($profile_for_content['areaContent'])) {
+        $area_content_map = $profile_for_content['areaContent'];
+    }
+}
+if (isset($area_content_map[$local_dong_slug]) && is_array($area_content_map[$local_dong_slug])) {
+    $row = $area_content_map[$local_dong_slug];
+    $page_intro = isset($row['intro']) ? trim(strip_tags((string) $row['intro'])) : '';
+    $hero_line = isset($row['hero_line']) ? trim(strip_tags((string) $row['hero_line'])) : '';
+    if (isset($row['faqs']) && is_array($row['faqs'])) {
+        foreach ($row['faqs'] as $faq) {
+            if (!is_array($faq) || !isset($faq['q'], $faq['a'])) {
+                continue;
+            }
+            $page_faqs[] = array(
+                'q' => trim(strip_tags((string) $faq['q'])),
+                'a' => trim(strip_tags((string) $faq['a'])),
+            );
+        }
+    }
+    if ($page_intro !== '') {
+        $page_desc = mb_substr($page_intro, 0, 150, 'UTF-8');
+    }
+}
+
+$secondary = array(
+    $local_dong_name . ' 싱크대청소',
+    $local_dong_name . ' 배수구청소',
+    $local_dong_name . ' 변기막힘',
+);
+if ($is_neighbor_area) {
+    $secondary[] = '강동구하수구청소';
+    $secondary[] = '원진하수구';
+} else {
+    $secondary[] = '강동구하수구청소';
+}
 
 if (function_exists('onoff_builder_inject_site_profile')) {
     $html = onoff_builder_inject_site_profile($html, $project_id, array(
         'activeArea' => $local_dong_name,
         'seoTitle' => $page_title,
         'seoDescription' => $page_desc,
-        'mainKeyword' => $local_dong_name . ' 하수구막힘',
-        'secondaryKeywords' => array(
-            $local_dong_name . ' 싱크대 막힘',
-            $local_dong_name . ' 변기 막힘',
-            $local_dong_name . ' 배수구 막힘',
-        ),
+        'mainKeyword' => $main_kw,
+        'secondaryKeywords' => $secondary,
         'canonical' => $canonical,
+        'pageIntro' => $page_intro,
+        'heroLine' => $hero_line,
+        'pageFaqs' => $page_faqs,
+        'serviceName' => $main_kw,
+        'breadcrumbLabel' => $main_kw,
     ));
 }
 

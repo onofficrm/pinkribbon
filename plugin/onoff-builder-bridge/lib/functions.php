@@ -804,22 +804,188 @@ if (!function_exists('onoff_builder_inject_site_profile')) {
             $profile_json = '{}';
         }
 
-        $schema = array(
-            '@context' => 'https://schema.org',
-            '@type' => 'LocalBusiness',
-            'name' => isset($profile['companyName']) ? (string) $profile['companyName'] : $title,
-            'url' => $canonical,
-            'telephone' => isset($profile['phone']) ? (string) $profile['phone'] : '',
+        $company = isset($profile['companyName']) ? trim((string) $profile['companyName']) : '';
+        if ($company === '') {
+            $company = $title;
+        }
+        $region = isset($profile['regionName']) ? trim((string) $profile['regionName']) : '';
+        $phone = isset($profile['phone']) ? trim((string) $profile['phone']) : '';
+        $address = isset($profile['address']) ? trim((string) $profile['address']) : '';
+        $active_area = isset($profile['activeArea']) ? trim((string) $profile['activeArea']) : '';
+        $service_name = isset($profile['serviceName']) ? trim((string) $profile['serviceName']) : '';
+        if ($service_name === '') {
+            $service_name = $main_keyword !== '' ? $main_keyword : ($company . ' 하수구청소');
+        }
+        $site_definition = isset($profile['siteDefinition']) ? trim((string) $profile['siteDefinition']) : '';
+        if ($site_definition === '' && $description !== '') {
+            $site_definition = $description;
+        }
+
+        $faq_source = array();
+        if (!empty($profile['pageFaqs']) && is_array($profile['pageFaqs'])) {
+            $faq_source = $profile['pageFaqs'];
+        } elseif (!empty($profile['homeFaqs']) && is_array($profile['homeFaqs'])) {
+            $faq_source = $profile['homeFaqs'];
+        }
+
+        $faq_entities = array();
+        foreach ($faq_source as $faq_row) {
+            if (!is_array($faq_row)) {
+                continue;
+            }
+            $q = isset($faq_row['q']) ? trim(strip_tags((string) $faq_row['q'])) : '';
+            $a = isset($faq_row['a']) ? trim(strip_tags((string) $faq_row['a'])) : '';
+            if ($q === '' || $a === '') {
+                continue;
+            }
+            $faq_entities[] = array(
+                '@type' => 'Question',
+                'name' => $q,
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text' => $a,
+                ),
+            );
+        }
+
+        $how_to_steps = array();
+        if (!empty($profile['howToSteps']) && is_array($profile['howToSteps'])) {
+            $pos = 1;
+            foreach ($profile['howToSteps'] as $step) {
+                if (!is_array($step)) {
+                    continue;
+                }
+                $step_name = isset($step['name']) ? trim(strip_tags((string) $step['name'])) : '';
+                $step_text = isset($step['text']) ? trim(strip_tags((string) $step['text'])) : '';
+                if ($step_name === '' || $step_text === '') {
+                    continue;
+                }
+                $how_to_steps[] = array(
+                    '@type' => 'HowToStep',
+                    'position' => $pos,
+                    'name' => $step_name,
+                    'text' => $step_text,
+                );
+                $pos++;
+            }
+        }
+
+        $breadcrumb_items = array(
+            array(
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => $company !== '' ? $company : '홈',
+                'item' => $site_url . '/',
+            ),
+        );
+        if ($active_area !== '' || $service_name !== $main_keyword || (isset($profile['breadcrumbLabel']) && $profile['breadcrumbLabel'] !== '')) {
+            $crumb_label = isset($profile['breadcrumbLabel']) ? trim((string) $profile['breadcrumbLabel']) : '';
+            if ($crumb_label === '') {
+                $crumb_label = $active_area !== '' ? ($active_area . ' 하수구청소') : $service_name;
+            }
+            if ($canonical !== ($site_url . '/') && $crumb_label !== '') {
+                $breadcrumb_items[] = array(
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => $crumb_label,
+                    'item' => $canonical,
+                );
+            }
+        }
+
+        $local_business = array(
+            '@type' => array('LocalBusiness', 'HomeAndConstructionBusiness'),
+            '@id' => $site_url . '/#business',
+            'name' => $company,
+            'url' => $site_url !== '' ? $site_url . '/' : $canonical,
+            'telephone' => $phone,
+            'image' => isset($profile['ogImage']) ? (string) $profile['ogImage'] : '',
+            'priceRange' => isset($profile['priceRange']) ? (string) $profile['priceRange'] : '상담 후 안내',
             'address' => array(
                 '@type' => 'PostalAddress',
-                'streetAddress' => isset($profile['address']) ? (string) $profile['address'] : '',
-                'addressRegion' => isset($profile['regionName']) ? (string) $profile['regionName'] : '',
+                'streetAddress' => $address,
+                'addressLocality' => $region,
+                'addressRegion' => '서울',
                 'addressCountry' => 'KR',
             ),
+            'areaServed' => array_values(array_filter(array(
+                $region !== '' ? array('@type' => 'AdministrativeArea', 'name' => $region) : null,
+                $active_area !== '' && $active_area !== $region
+                    ? array('@type' => 'Place', 'name' => $active_area)
+                    : null,
+            ))),
+        );
+        if (!empty($profile['openingHours'])) {
+            $local_business['openingHours'] = (string) $profile['openingHours'];
+        }
+        if ($site_definition !== '') {
+            $local_business['description'] = $site_definition;
+        }
+        if (empty($local_business['image'])) {
+            unset($local_business['image']);
+        }
+        if (empty($local_business['areaServed'])) {
+            unset($local_business['areaServed']);
+        }
+
+        $service_schema = array(
+            '@type' => 'Service',
+            '@id' => $canonical . '#service',
+            'name' => $service_name,
+            'serviceType' => '하수구청소',
+            'provider' => array('@id' => $site_url . '/#business'),
+            'url' => $canonical,
+            'areaServed' => $active_area !== '' ? $active_area : $region,
+            'description' => $description !== '' ? $description : $site_definition,
+        );
+
+        $graph = array($local_business, $service_schema, array(
+            '@type' => 'WebSite',
+            '@id' => $site_url . '/#website',
+            'name' => isset($profile['siteName']) ? (string) $profile['siteName'] : $company,
+            'url' => $site_url !== '' ? $site_url . '/' : $canonical,
+            'publisher' => array('@id' => $site_url . '/#business'),
+            'inLanguage' => 'ko-KR',
+        ), array(
+            '@type' => 'BreadcrumbList',
+            '@id' => $canonical . '#breadcrumb',
+            'itemListElement' => $breadcrumb_items,
+        ));
+
+        if (!empty($faq_entities)) {
+            $graph[] = array(
+                '@type' => 'FAQPage',
+                '@id' => $canonical . '#faq',
+                'mainEntity' => $faq_entities,
+            );
+        }
+
+        if (!empty($how_to_steps)) {
+            $how_to_name = isset($profile['howToName']) ? trim((string) $profile['howToName']) : '';
+            if ($how_to_name === '') {
+                $how_to_name = '하수구가 막혔을 때 대처 방법';
+            }
+            $graph[] = array(
+                '@type' => 'HowTo',
+                '@id' => $canonical . '#howto',
+                'name' => $how_to_name,
+                'description' => '배수가 느려지거나 역류·악취가 있을 때 안전하게 확인하고 상담받기까지의 순서입니다.',
+                'step' => $how_to_steps,
+            );
+        }
+
+        $schema = array(
+            '@context' => 'https://schema.org',
+            '@graph' => $graph,
         );
         $schema_json = json_encode($schema, $json_options);
         if ($schema_json === false) {
             $schema_json = '{}';
+        }
+
+        $og_image = isset($profile['ogImage']) ? trim((string) $profile['ogImage']) : '';
+        if ($og_image !== '' && strpos($og_image, 'http') !== 0 && $site_url !== '') {
+            $og_image = $site_url . (strpos($og_image, '/') === 0 ? '' : '/') . $og_image;
         }
 
         $head = "\n"
@@ -832,6 +998,8 @@ if (!function_exists('onoff_builder_inject_site_profile')) {
             . '<meta property="og:title" content="' . $escape($title) . '">' . "\n"
             . '<meta property="og:description" content="' . $escape($description) . '">' . "\n"
             . '<meta property="og:url" content="' . $escape($canonical) . '">' . "\n"
+            . ($og_image !== '' ? '<meta property="og:image" content="' . $escape($og_image) . '">' . "\n" : '')
+            . '<meta name="twitter:card" content="summary_large_image">' . "\n"
             . '<script>window.__SITE_CONFIG__=' . $profile_json . ';</script>' . "\n"
             . '<script type="application/ld+json">' . $schema_json . '</script>' . "\n";
 

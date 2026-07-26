@@ -1,6 +1,6 @@
 {
-  "name": "강동구 하수구막힘 긴급출동",
-  "description": "강동구 전 지역 하수구, 싱크대, 변기 막힘 30분 내 긴급출동 서비스 전환형 랜딩페이지",
+  "name": "원진하수구 · 강동구하수구청소",
+  "description": "원진하수구 · 강동구하수구청소. 싱크대·배수구·정화조 청소와 악취·역류 점검 상담 랜딩",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

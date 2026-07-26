@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Camera, Clock, Phone, Star, Upload, Users, X } from 'lucide-react';
-import { getDongFromUrl, localAreas, phoneCtaLabel, phoneCtaSubLabel, regionName, reviews, telHref } from '../data';
+import { getDongFromUrl, localAreas, neighborAreas, phoneCtaLabel, phoneCtaSubLabel, regionName, reviews, telHref } from '../data';
 
 export const TrustSignals = () => {
   const [consultToday, setConsultToday] = useState(11);
@@ -58,7 +58,7 @@ export const PhotoInquiryForm = ({ compact = false }: { compact?: boolean }) => 
   const defaultArea = getDongFromUrl() || localAreas[0]?.name || regionName;
   const [phone, setPhone] = useState('');
   const [area, setArea] = useState(defaultArea);
-  const [symptom, setSymptom] = useState('싱크대/배수 막힘');
+  const [symptom, setSymptom] = useState('싱크대/배수 청소');
   const [photo, setPhoto] = useState<File | null>(null);
   const [preview, setPreview] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle');
@@ -146,6 +146,9 @@ export const PhotoInquiryForm = ({ compact = false }: { compact?: boolean }) => 
                 {localAreas.map((a) => (
                   <option key={a.slug} value={a.name}>{a.name}</option>
                 ))}
+                {neighborAreas.map((a) => (
+                  <option key={`n-${a.slug}`} value={a.name}>{a.name}</option>
+                ))}
                 <option value={`${regionName} 기타`}>{regionName} 기타</option>
               </select>
             </label>
@@ -158,10 +161,11 @@ export const PhotoInquiryForm = ({ compact = false }: { compact?: boolean }) => 
               onChange={(e) => setSymptom(e.target.value)}
               className="w-full rounded-xl border border-slate-200 px-4 py-3 font-medium outline-none focus:border-orange-400 bg-white"
             >
-              <option>싱크대/배수 막힘</option>
+              <option>싱크대/배수 청소</option>
               <option>변기 막힘</option>
               <option>하수구 역류</option>
               <option>배수구 악취</option>
+              <option>정화조/외부 배수</option>
               <option>상가/음식점 배수</option>
               <option>기타</option>
             </select>
@@ -307,7 +311,7 @@ export const ExitPopup = () => {
               사진 1장만 보내세요
             </h3>
             <p className="text-slate-600 font-medium mb-6 break-keep">
-              {area} 막힘 증상을 사진으로 보내주시면 예상 안내가 더 빨라집니다.
+              {area} 배수·청소 증상을 사진으로 보내주시면 예상 안내가 더 빨라집니다.
             </p>
             <div className="space-y-3">
               <PhoneCta area={area} className="w-full" />

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, ShieldAlert, PhoneCall, Camera } from 'lucide-react';
-import { assetUrl, contactInfo, getDongFromUrl, keywords, phoneCtaLabel, phoneCtaSubLabel, regionName, telHref } from '../data';
+import { assetUrl, contactInfo, defaultFaqs, getDongFromUrl, keywords, phoneCtaLabel, phoneCtaSubLabel, resolveFaqs, regionName, serviceHubs, telHref } from '../data';
 
 export const Notices = () => {
   const promises = [
@@ -52,40 +52,8 @@ export const Notices = () => {
 };
 
 export const FAQ = () => {
-  const faqs = [
-    {
-      q: `${regionName} 전지역 상담 가능한가요?`,
-      a: `${regionName} 주요 지역의 하수구 막힘, 싱크대 막힘, 변기 막힘, 배수구 막힘 증상 상담이 가능합니다. 정확한 가능 여부는 위치와 시간에 따라 안내드립니다.`
-    },
-    {
-      q: "하수구 막힘 비용은 얼마인가요?",
-      a: "비용은 막힘 정도, 배관 구조, 필요한 장비, 작업 범위에 따라 달라질 수 있습니다. 상담 시 증상을 알려주시면 가능한 범위에서 안내드립니다."
-    },
-    {
-      q: "싱크대 막힘도 가능한가요?",
-      a: "네. 싱크대 물 빠짐 불량, 악취, 반복 막힘 등 다양한 증상 상담이 가능합니다."
-    },
-    {
-      q: "변기 막힘도 상담 가능한가요?",
-      a: "네. 변기 물이 잘 내려가지 않거나 물이 차오르는 증상도 상담 가능합니다."
-    },
-    {
-      q: "하수구 냄새가 심한데 막힘 문제인가요?",
-      a: "냄새의 원인은 배관 내부 오염, 트랩 문제, 역류, 배수 불량 등 다양할 수 있습니다. 증상 확인 후 안내가 필요합니다."
-    },
-    {
-      q: "밤이나 주말에도 상담 가능한가요?",
-      a: "긴급 상황은 상담 후 가능한 일정과 대응 여부를 안내드립니다."
-    },
-    {
-      q: "뚫어뻥으로 해결되지 않으면 어떻게 해야 하나요?",
-      a: "입구 쪽 문제가 아니라 배관 안쪽 막힘일 수 있습니다. 반복되거나 해결되지 않는 경우 전문 장비 점검이 필요할 수 있습니다."
-    },
-    {
-      q: "작업 후 다시 막힐 수도 있나요?",
-      a: "배관 상태와 사용 환경에 따라 재발 가능성이 있을 수 있습니다. 반복 막힘이 있다면 원인 확인이 중요합니다."
-    }
-  ];
+  const area = getDongFromUrl() || regionName;
+  const faqs = resolveFaqs(area);
 
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
@@ -125,9 +93,9 @@ export const FAQ = () => {
                         >
                           <span className="inline-flex items-center gap-1.5 text-xs opacity-95">
                             <PhoneCall className="w-3.5 h-3.5" />
-                            {phoneCtaSubLabel(regionName)}
+                            {phoneCtaSubLabel(area)}
                           </span>
-                          <span className="text-lg tracking-tight">{phoneCtaLabel(regionName)}</span>
+                          <span className="text-lg tracking-tight">{phoneCtaLabel(area)}</span>
                         </a>
                         <a
                           href="#inquiry-form"
@@ -156,10 +124,10 @@ export const FinalCTA = () => {
       <div className="absolute inset-0 bg-slate-950/80"></div>
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight break-keep">
-          {area} 막힘,<br className="hidden md:block" /> 사진 한 장이면 상담이 빨라집니다
+          {area} 하수구청소,<br className="hidden md:block" /> 사진 한 장이면 상담이 빨라집니다
         </h2>
         <p className="text-slate-300 text-lg mb-10 font-medium break-keep leading-relaxed max-w-2xl mx-auto">
-          현재 증상과 위치를 알려주세요. 필요한 장비와 작업 방향을 빠르게 안내합니다.
+          현재 배수 상태와 위치를 알려주세요. 필요한 청소·점검 방향을 빠르게 안내합니다.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -205,10 +173,37 @@ export const Footer = () => {
           </div>
         </div>
         <div className="md:text-right font-medium flex flex-col justify-between">
-          <p className="mb-6">
-            본 사이트는 정보 제공을 목적으로 하며,<br className="hidden md:block" />
-            서비스 제공에 따른 책임은 당사에 있습니다.
-          </p>
+          <div className="mb-6 space-y-2">
+            <p className="flex flex-wrap justify-end gap-x-2 gap-y-1">
+              <a href="/page/about.php" className="text-slate-300 hover:text-orange-400 font-bold">회사소개</a>
+              <span className="text-slate-600">·</span>
+              <a href="/bbs/board.php?bo_table=notice" className="text-slate-300 hover:text-orange-400 font-bold">시공사례</a>
+              <span className="text-slate-600">·</span>
+              <a href="/#areas" className="text-slate-300 hover:text-orange-400 font-bold">출동지역</a>
+              <span className="text-slate-600">·</span>
+              <a href="/#faq" className="text-slate-300 hover:text-orange-400 font-bold">FAQ</a>
+              <span className="text-slate-600">·</span>
+              <a href="/#howto" className="text-slate-300 hover:text-orange-400 font-bold">대처법</a>
+              <span className="text-slate-600">·</span>
+              <a href="/#compare" className="text-slate-300 hover:text-orange-400 font-bold">뚫기vs청소</a>
+            </p>
+            {serviceHubs.length > 0 && (
+              <p className="flex flex-wrap justify-end gap-x-2 gap-y-1">
+                {serviceHubs.map((hub, i) => (
+                  <span key={hub.slug} className="inline-flex items-center gap-2">
+                    {i > 0 && <span className="text-slate-600">·</span>}
+                    <a href={hub.url || `/page/service-${hub.slug}.php`} className="text-slate-300 hover:text-orange-400 font-bold">
+                      {hub.label || hub.name}
+                    </a>
+                  </span>
+                ))}
+              </p>
+            )}
+            <p>
+              본 사이트는 정보 제공을 목적으로 하며,<br className="hidden md:block" />
+              서비스 제공에 따른 책임은 당사에 있습니다.
+            </p>
+          </div>
           <p>&copy; {new Date().getFullYear()} {contactInfo.companyName}. All rights reserved.</p>
         </div>
       </div>

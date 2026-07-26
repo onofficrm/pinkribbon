@@ -5,8 +5,10 @@
 ## 핵심 원칙
 
 - 복사 사이트의 공개 변수는 루트의 **`_site.clone.config.php` 한 파일에서만 수정**합니다.
+- 브랜드·메인키워드는 사이트마다 다르게 잡습니다. (예: `원진하수구` + `강동구하수구청소`)
+- 동별·인접 지역은 `local_areas` / `neighbor_areas` 로 나누고, **고유 문구는 `area_content`** 에 작성합니다.
 - 새 사이트 시작 시 **`_site.clone.config.sample.php`를 복사**해 `_site.clone.config.php`로 저장한 뒤 값을 바꿉니다.
-- React/Vite 재빌드 없이 홈 화면·대형 전화 CTA·SEO 메타가 반영됩니다.
+- SEO·CTA·지역 목록은 재빌드 없이 반영됩니다. 히어로/FAQ 톤을 바꿀 때는 빌더 소스 수정 후 Vite 빌드가 필요합니다.
 - `phone` 값만 바꾸면 히어로·헤더·하단바·모든 전화 버튼 문구/번호가 함께 바뀝니다.
 - API 키·DB 비밀번호·토큰은 이 파일에 넣지 않습니다.
 
@@ -51,23 +53,24 @@ FTP 파일만으로 게시글·회원·게시판 설정은 복원되지 않습�
 ```php
 'region_name'     => '송파구',
 'region_short'    => '송파',
-'region_initial'  => '송',
-'company_name'    => '송파 하수구 해결센터',
+'region_initial'  => '원',
+'company_name'    => '원진하수구',
 'address'         => '서울특별시 송파구 00로 00',
 
-'site_name'       => '송파구 하수구막힘 긴급출동',
+'site_name'       => '원진하수구',
 'site_desc'       => '...',
-'seo_title'       => '송파구 하수구막힘 긴급출동',
+'seo_title'       => '송파구하수구청소 | 원진하수구',
 'seo_description' => '...',
-'main_keyword'    => '송파구하수구막힘',
+'main_keyword'    => '송파구하수구청소',
 'sub_keywords'    => array(
-    '송파구 싱크대 막힘',
-    '송파구 변기 막힘',
-    '송파구 배수구 막힘',
+    '송파구 싱크대청소',
+    '송파구 배수구청소',
+    '송파구 변기막힘',
 ),
 ```
 
-`local_areas`, `area_spots`, `reviews`도 같은 파일에서 지역별로 교체합니다.
+`local_areas`, `neighbor_areas`, `area_spots`, `area_content`, `reviews`도 같은 파일에서 지역별로 교체합니다.  
+`area_content[slug].intro` / `faqs` 가 동·인접 지역 페이지의 고유 본문·FAQ로 주입됩니다.
 
 빠른 시작:
 
@@ -100,6 +103,7 @@ ID를 바꾸려면 아래가 일치해야 합니다.
 
 ```text
 /page/local-cheonho.php
+/page/local-songpa.php   # neighbor_areas
 ```
 
 공용 URL(설정 slug만 사용, 새 PHP 불필요):
@@ -112,7 +116,7 @@ ID를 바꾸려면 아래가 일치해야 합니다.
 array(
     'slug' => 'jamsil',
     'name' => '잠실동',
-    'label' => '잠실동 하수구막힘',
+    'label' => '잠실동 하수구청소',
     'url' => '/page/local.php?area=jamsil',
 ),
 ```
@@ -125,6 +129,7 @@ $local_dong_slug = 'jamsil';
 include_once dirname(__FILE__) . '/_local-drain-home.php';
 ```
 
+`area_content` 에 해당 slug의 `intro` / `hero_line` / `faqs` 를 넣으면 페이지별로 고유 본문이 주입됩니다.
 ## 5. 새 서버 복원 순서
 
 1. FTP 백업 업로드 + DB SQL 복원
@@ -137,6 +142,17 @@ include_once dirname(__FILE__) . '/_local-drain-home.php';
 8. 홈 소스에서 `window.__SITE_CONFIG__.phone` = `010-4265-2634` 확인
 9. 전화 버튼·사진 문의·지역 페이지 테스트
 10. sitemap·검색콘솔 등록
+11. `/img/common/og-image.jpg` 존재 확인
+12. 네이버·구글 비즈니스 NAP = `_site.clone.config.php` 상호·전화·주소와 일치
+13. (선택) 관리자 로그인 후 `/proc/seed-case-samples.php?key=wonjin-cases-seed` 로 시공사례 샘플 생성 후 사진 첨부
+
+## 8. AEO/GEO 확인
+
+페이지 소스에서 JSON-LD `@graph`에 다음이 포함되는지 확인합니다.
+
+- LocalBusiness / Service / FAQPage / HowTo / BreadcrumbList
+- FAQ 화면 문구와 FAQPage `mainEntity` 일치
+- 홈 `#definition`, `#howto`, `#compare` 섹션 노출
 
 ## 6. 복사본에 그대로 두지 말 것
 

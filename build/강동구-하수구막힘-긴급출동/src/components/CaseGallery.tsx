@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Images } from 'lucide-react';
-import { regionName } from '../data';
+import { assetUrl, caseStudies, regionName } from '../data';
 
 type CaseItem = {
   id: number;
@@ -10,6 +10,7 @@ type CaseItem = {
   thumb: string;
   date: string;
   category: string;
+  summary?: string;
 };
 
 type LatestResponse = {
@@ -20,10 +21,23 @@ type LatestResponse = {
 
 const LATEST_API = '/proc/latest-posts.php?bo_table=notice&rows=6';
 
+function fallbackCases(): CaseItem[] {
+  return caseStudies.slice(0, 6).map((c, idx) => ({
+    id: idx + 1,
+    subject: c.subject,
+    href: c.href || '/bbs/board.php?bo_table=notice',
+    thumb: c.thumb ? assetUrl(c.thumb) : '',
+    date: '',
+    category: c.category || c.area || '',
+    summary: c.summary || '',
+  }));
+}
+
 export const CaseGallery = () => {
   const [items, setItems] = useState<CaseItem[]>([]);
   const [listUrl, setListUrl] = useState('/bbs/board.php?bo_table=notice');
   const [loaded, setLoaded] = useState(false);
+  const [fromBoard, setFromBoard] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -33,10 +47,19 @@ export const CaseGallery = () => {
       .then((data: LatestResponse) => {
         if (cancelled) return;
         if (data?.list_url) setListUrl(data.list_url);
-        if (Array.isArray(data?.items)) setItems(data.items);
+        if (Array.isArray(data?.items) && data.items.length > 0) {
+          setItems(data.items);
+          setFromBoard(true);
+        } else {
+          setItems(fallbackCases());
+          setFromBoard(false);
+        }
       })
       .catch(() => {
-        if (!cancelled) setItems([]);
+        if (!cancelled) {
+          setItems(fallbackCases());
+          setFromBoard(false);
+        }
       })
       .finally(() => {
         if (!cancelled) setLoaded(true);
@@ -57,10 +80,12 @@ export const CaseGallery = () => {
               Case Gallery
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3 break-keep">
-              최근 시공사례
+              {regionName} 시공사례
             </h2>
             <p className="text-slate-400 font-medium max-w-xl break-keep leading-relaxed">
-              {regionName} 현장 작업 사진을 갤러리로 확인하세요. 신규 등록 사례가 홈에 바로 반영됩니다.
+              {fromBoard
+                ? '게시판에 등록된 최신 사례입니다. 지역·증상별로 확인해 보세요.'
+                : '대표 상담 사례입니다. 관리자에서 실제 사진을 등록하면 자동으로 교체됩니다. 카드는 해당 지역 페이지로 연결됩니다.'}
             </p>
           </div>
           <a
@@ -81,9 +106,6 @@ export const CaseGallery = () => {
         ) : items.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-slate-700 bg-slate-900/60 px-6 py-16 text-center">
             <p className="text-slate-300 font-bold text-lg mb-2">아직 등록된 시공사례가 없습니다</p>
-            <p className="text-slate-500 font-medium mb-8 break-keep">
-              관리자에서 사진과 함께 사례를 등록하면 이곳에 썸네일이 표시됩니다.
-            </p>
             <a
               href={listUrl}
               className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-2xl font-bold transition-colors"
@@ -96,7 +118,7 @@ export const CaseGallery = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {items.map((item, idx) => (
               <motion.a
-                key={item.id}
+                key={`${item.id}-${item.href}`}
                 href={item.href}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -107,7 +129,7 @@ export const CaseGallery = () => {
                 {item.thumb ? (
                   <img
                     src={item.thumb}
-                    alt={item.subject}
+                    alt={`${item.subject} 시공사례`}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -124,7 +146,9 @@ export const CaseGallery = () => {
                   <h3 className="text-white font-extrabold text-lg leading-snug line-clamp-2 mb-2 break-keep">
                     {item.subject}
                   </h3>
-                  {item.date ? (
+                  {item.summary ? (
+                    <p className="text-slate-300 text-sm font-medium line-clamp-2 break-keep">{item.summary}</p>
+                  ) : item.date ? (
                     <time className="text-slate-300 text-sm font-medium">{item.date}</time>
                   ) : null}
                 </div>
