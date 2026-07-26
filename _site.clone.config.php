@@ -1,33 +1,41 @@
 <?php
 /**
- * 사이트 복제 전용 설정
+ * 사이트 복제 전용 설정 (이 파일만 사이트마다 수정)
  *
- * 새 지역 사이트를 만들 때 이 파일만 수정합니다.
- * 디자인 번들 수정이나 npm build 없이 홈 화면과 SEO 메타에 반영됩니다.
+ * - [공통 유지] phone: 전 사이트 동일. 홈·CTA에 크게 표시 + 클릭 시 tel 연결
+ * - [사이트마다 변경] 지역명·SEO·동 목록·후기
+ * - React/Vite 재빌드 불필요. 샘플: `_site.clone.config.sample.php`
+ * - 절차: SITE-CLONE-GUIDE.md
  */
 if (!defined('_GNUBOARD_')) {
     exit;
 }
 
 return array(
-    /* 지역·브랜드 */
-    'region_name'    => '강동구',
-    'region_short'   => '강동',
-    'region_initial' => '강',
-    'company_name'   => '강동 하수구 해결센터',
-    'ceo_name'       => '김배관',
-    'business_no'    => '123-45-67890',
-    'phone'          => '010-4265-2634',
-    'email'          => 'help@example.com',
-    'address'        => '서울특별시 강동구 천호대로 00길 00',
+    /* =========================================================
+     * [공통 유지] — 복사본에도 그대로 둡니다
+     * ========================================================= */
+    'phone' => '010-4265-2634',
+    'ceo_name' => '김배관',
+    'business_no' => '123-45-67890',
+    'email' => 'help@example.com',
+    'builder_project_id' => 'gangdong-drain',
 
-    /* 메인 페이지 SEO — 복사 사이트마다 직접 수정 */
-    'site_name'       => '강동구 하수구막힘 긴급출동',
-    'site_desc'       => '강동구 전 지역 하수구, 싱크대, 변기 막힘 긴급 상담',
-    'seo_title'       => '강동구 하수구막힘 긴급출동',
+    /* =========================================================
+     * [사이트마다 변경] — 지역 SEO
+     * ========================================================= */
+    'region_name' => '강동구',
+    'region_short' => '강동',
+    'region_initial' => '강',
+    'company_name' => '강동 하수구 해결센터',
+    'address' => '서울특별시 강동구 천호대로 00길 00',
+
+    'site_name' => '강동구 하수구막힘 긴급출동',
+    'site_desc' => '강동구 전 지역 하수구, 싱크대, 변기 막힘 긴급 상담',
+    'seo_title' => '강동구 하수구막힘 긴급출동',
     'seo_description' => '강동구 전 지역 하수구, 싱크대, 변기 막힘 긴급출동 서비스',
-    'main_keyword'    => '강동구하수구막힘',
-    'sub_keywords'    => array(
+    'main_keyword' => '강동구하수구막힘',
+    'sub_keywords' => array(
         '강동구 싱크대 막힘',
         '강동구 변기 막힘',
         '강동구 배수구 막힘',
@@ -35,10 +43,7 @@ return array(
     ),
     'footer_desc' => '강동구 하수구·싱크대·변기 막힘 긴급출동',
 
-    /* 동일 디자인 번들. 복사할 때 폴더명을 유지하면 수정할 필요 없음 */
-    'builder_project_id' => 'gangdong-drain',
-
-    /* 지역 선택·동별 랜딩. url 파일도 FTP 백업에 함께 포함 */
+    /* 지역 선택·동별 랜딩 */
     'local_areas' => array(
         array('slug' => 'cheonho', 'name' => '천호동', 'label' => '천호동 하수구막힘', 'url' => '/page/local-cheonho.php'),
         array('slug' => 'seongnae', 'name' => '성내동', 'label' => '성내동 하수구막힘', 'url' => '/page/local-seongnae.php'),
@@ -55,7 +60,7 @@ return array(
         '암사역 인근', '명일역 인근', '고덕역 인근', '상일동역 인근',
     ),
 
-    /* 표시용 후기 — 실제 후기 확인 후 사이트별로 교체 */
+    /* 표시용 후기 — 복사본에서는 지역에 맞게 교체 */
     'reviews' => array(
         array(
             'area' => '천호동',

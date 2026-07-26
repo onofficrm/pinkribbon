@@ -3,7 +3,9 @@
  * 사이트 공통 기능 설정
  *
  * 지역 사이트 복제 시 이 파일은 수정하지 말고
- * /_site.clone.config.php 의 지역·SEO 값만 수정합니다.
+ * /_site.clone.config.php 의 지역·SEO·전화 값만 수정합니다.
+ * 템플릿: /_site.clone.config.sample.php
+ * 절차: /SITE-CLONE-GUIDE.md
  */
 if (!defined('_GNUBOARD_')) {
     exit;
