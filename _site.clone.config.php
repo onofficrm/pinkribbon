@@ -17,7 +17,7 @@ return array(
     'company_name'   => '강동 하수구 해결센터',
     'ceo_name'       => '김배관',
     'business_no'    => '123-45-67890',
-    'phone'          => '010-1234-5678',
+    'phone'          => '010-4265-2634',
     'email'          => 'help@example.com',
     'address'        => '서울특별시 강동구 천호대로 00길 00',
 

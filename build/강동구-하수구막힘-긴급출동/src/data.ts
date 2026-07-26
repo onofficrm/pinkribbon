@@ -86,7 +86,12 @@ export function localAreaUrl(area: LocalArea) {
 }
 
 export function phoneCtaLabel(area = regionName) {
-  return `${area} 지금 출동 가능 확인`;
+  if (!contactInfo.phone) return `${area} 전화상담`;
+  return contactInfo.phoneFormatted;
+}
+
+export function phoneCtaSubLabel(area = regionName) {
+  return `${area} 지금 전화상담`;
 }
 
 export function telHref() {

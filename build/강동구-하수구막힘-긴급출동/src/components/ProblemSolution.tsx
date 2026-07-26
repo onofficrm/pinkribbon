@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { AlertTriangle, Bath, CheckCircle2, Droplets, PhoneCall, Store, Waves } from 'lucide-react';
-import { assetUrl, phoneCtaLabel, regionName, telHref } from '../data';
+import { assetUrl, phoneCtaLabel, phoneCtaSubLabel, regionName, telHref } from '../data';
 
 const symptomItems = [
   { icon: Droplets, title: '물이 천천히 내려가요' },
@@ -45,8 +45,12 @@ export const Symptoms = () => (
             ))}
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <a href={telHref()} className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-7 py-4 rounded-2xl font-extrabold transition-colors">
-              <PhoneCall className="w-5 h-5" /> {phoneCtaLabel(regionName)}
+            <a href={telHref()} className="inline-flex flex-col items-center justify-center gap-1 bg-orange-500 hover:bg-orange-600 text-white px-7 py-4 rounded-2xl font-extrabold transition-colors leading-none">
+              <span className="inline-flex items-center gap-1.5 text-xs opacity-95">
+                <PhoneCall className="w-4 h-4" />
+                {phoneCtaSubLabel(regionName)}
+              </span>
+              <span className="text-2xl tracking-tight">{phoneCtaLabel(regionName)}</span>
             </a>
             <a href="#inquiry-form" className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-7 py-4 rounded-2xl font-extrabold transition-colors">
               사진 보내고 상담

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, ShieldAlert, PhoneCall, Camera } from 'lucide-react';
-import { assetUrl, contactInfo, getDongFromUrl, keywords, phoneCtaLabel, regionName, telHref } from '../data';
+import { assetUrl, contactInfo, getDongFromUrl, keywords, phoneCtaLabel, phoneCtaSubLabel, regionName, telHref } from '../data';
 
 export const Notices = () => {
   const promises = [
@@ -121,9 +121,13 @@ export const FAQ = () => {
                       <div className="flex flex-col sm:flex-row gap-2">
                         <a
                           href={telHref()}
-                          className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-xl text-sm font-extrabold"
+                          className="inline-flex flex-col items-center justify-center gap-0.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-xl text-sm font-extrabold leading-none"
                         >
-                          <PhoneCall className="w-4 h-4" /> 이 증상으로 전화상담
+                          <span className="inline-flex items-center gap-1.5 text-xs opacity-95">
+                            <PhoneCall className="w-3.5 h-3.5" />
+                            {phoneCtaSubLabel(regionName)}
+                          </span>
+                          <span className="text-lg tracking-tight">{phoneCtaLabel(regionName)}</span>
                         </a>
                         <a
                           href="#inquiry-form"
@@ -161,10 +165,13 @@ export const FinalCTA = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href={telHref()}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold text-lg transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 border border-orange-500"
+            className="w-full sm:w-auto flex flex-col items-center justify-center gap-1 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 border border-orange-500 leading-none"
           >
-            <PhoneCall className="w-5 h-5" />
-            {phoneCtaLabel(area)}
+            <span className="inline-flex items-center gap-2 text-sm opacity-95">
+              <PhoneCall className="w-5 h-5" />
+              {phoneCtaSubLabel(area)}
+            </span>
+            <span className="text-3xl md:text-4xl tracking-tight">{phoneCtaLabel(area)}</span>
           </a>
 
           <a
@@ -189,7 +196,12 @@ export const Footer = () => {
           <div className="space-y-2 font-medium">
             <p>대표: {contactInfo.ceo} | 사업자등록번호: {contactInfo.businessNumber}</p>
             <p>주소: {contactInfo.address}</p>
-            <p className="text-slate-400">고객센터: {contactInfo.phoneFormatted}</p>
+            <p className="text-slate-300">
+              고객센터:{' '}
+              <a href={telHref()} className="text-orange-400 font-extrabold text-lg hover:text-orange-300">
+                {contactInfo.phoneFormatted}
+              </a>
+            </p>
           </div>
         </div>
         <div className="md:text-right font-medium flex flex-col justify-between">

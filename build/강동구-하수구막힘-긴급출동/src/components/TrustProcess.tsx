@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Wrench, Search, MapPin, ShieldCheck, CheckCircle2, Info, PhoneCall, MessageSquare, ClipboardList, Sparkles } from 'lucide-react';
-import { areaSpots, assetUrl, localAreas, localAreaUrl, phoneCtaLabel, regionName, telHref } from '../data';
+import { areaSpots, assetUrl, localAreas, localAreaUrl, phoneCtaLabel, phoneCtaSubLabel, regionName, telHref } from '../data';
 
 export const Equipment = () => {
   return (
@@ -115,10 +115,13 @@ export const Equipment = () => {
 
               <a
                 href={telHref()}
-                className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold text-lg transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 w-full sm:w-auto"
+                className="inline-flex flex-col items-center justify-center gap-1 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 w-full sm:w-auto leading-none"
               >
-                <PhoneCall className="w-5 h-5" />
-                {phoneCtaLabel(regionName)}
+                <span className="inline-flex items-center gap-2 text-sm opacity-95">
+                  <PhoneCall className="w-5 h-5" />
+                  {phoneCtaSubLabel(regionName)}
+                </span>
+                <span className="text-2xl md:text-3xl tracking-tight">{phoneCtaLabel(regionName)}</span>
               </a>
             </motion.div>
           </div>
@@ -227,10 +230,13 @@ export const Process = () => {
           <div>
             <a
               href={telHref()}
-              className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-10 py-5 rounded-2xl font-extrabold text-xl transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30"
+              className="inline-flex flex-col items-center justify-center gap-1 bg-orange-500 hover:bg-orange-600 text-white px-10 py-5 rounded-2xl font-extrabold transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 leading-none"
             >
-              <PhoneCall className="w-6 h-6" />
-              {phoneCtaLabel(regionName)}
+              <span className="inline-flex items-center gap-2 text-sm opacity-95">
+                <PhoneCall className="w-5 h-5" />
+                {phoneCtaSubLabel(regionName)}
+              </span>
+              <span className="text-2xl md:text-3xl tracking-tight">{phoneCtaLabel(regionName)}</span>
             </a>
           </div>
         </div>
@@ -311,10 +317,13 @@ export const Areas = () => {
 
               <a
                 href={telHref()}
-                className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold text-lg transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30"
+                className="w-full flex flex-col items-center justify-center gap-1 bg-orange-500 hover:bg-orange-600 text-white px-8 py-5 rounded-2xl font-extrabold transition-all hover:-translate-y-1 shadow-lg shadow-orange-500/30 leading-none"
               >
-                <PhoneCall className="w-5 h-5" />
-                {phoneCtaLabel(regionName)}
+                <span className="inline-flex items-center gap-2 text-sm opacity-95">
+                  <PhoneCall className="w-5 h-5" />
+                  {phoneCtaSubLabel(regionName)}
+                </span>
+                <span className="text-2xl md:text-3xl tracking-tight">{phoneCtaLabel(regionName)}</span>
               </a>
             </div>
           </div>

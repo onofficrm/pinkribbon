@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Camera, Clock, Phone, Star, Upload, Users, X } from 'lucide-react';
-import { getDongFromUrl, localAreas, phoneCtaLabel, regionName, reviews, telHref } from '../data';
+import { getDongFromUrl, localAreas, phoneCtaLabel, phoneCtaSubLabel, regionName, reviews, telHref } from '../data';
 
 export const TrustSignals = () => {
   const [consultToday, setConsultToday] = useState(11);
@@ -38,14 +38,18 @@ export const PhoneCta = ({
   size?: 'sm' | 'md' | 'lg';
 }) => {
   const dong = area || getDongFromUrl() || regionName;
-  const pad = size === 'lg' ? 'px-8 py-5 text-lg' : size === 'sm' ? 'px-4 py-2.5 text-sm' : 'px-6 py-4 text-base';
+  const pad = size === 'lg' ? 'px-8 py-5' : size === 'sm' ? 'px-4 py-3' : 'px-6 py-4';
+  const numberSize = size === 'lg' ? 'text-3xl' : size === 'sm' ? 'text-xl' : 'text-2xl';
   return (
     <a
       href={telHref()}
-      className={`inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl font-extrabold transition-all shadow-lg shadow-orange-500/25 ${pad} ${className}`}
+      className={`inline-flex flex-col items-center justify-center gap-1 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl font-extrabold transition-all shadow-lg shadow-orange-500/25 leading-none ${pad} ${className}`}
     >
-      <Phone className="w-5 h-5" />
-      {phoneCtaLabel(dong)}
+      <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm opacity-95">
+        <Phone className="w-4 h-4" />
+        {phoneCtaSubLabel(dong)}
+      </span>
+      <span className={`${numberSize} tracking-tight`}>{phoneCtaLabel(dong)}</span>
     </a>
   );
 };
