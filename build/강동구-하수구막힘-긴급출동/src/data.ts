@@ -2,6 +2,7 @@ export type LocalArea = {
   slug: string;
   name: string;
   label: string;
+  clog_label?: string;
   url?: string;
 };
 
@@ -70,6 +71,7 @@ type SiteRuntimeConfig = {
   heroLine?: string;
   pageFaqs?: PageFaq[];
   serviceName?: string;
+  clogKeyword?: string;
 };
 
 declare global {
@@ -101,6 +103,7 @@ export const contactInfo = {
 
 export const keywords = {
   main: runtime.mainKeyword?.trim() || `${regionName}하수구청소`,
+  clog: runtime.clogKeyword?.trim() || `${regionName}하수구막힘`,
   secondary: Array.isArray(runtime.secondaryKeywords) ? runtime.secondaryKeywords : [],
 };
 
@@ -135,7 +138,7 @@ export function phoneCtaLabel(area = regionName) {
 }
 
 export function phoneCtaSubLabel(area = regionName) {
-  return `${area} 하수구청소 상담`;
+  return `${area} 하수구청소·막힘 상담`;
 }
 
 export function telHref() {
@@ -171,27 +174,27 @@ export function defaultFaqs(area = regionName): PageFaq[] {
   }
   return [
     {
-      q: `${area} 하수구청소는 어디서 받나요?`,
-      a: `원진하수구에서 ${area} 하수구청소 상담이 가능합니다. 증상과 위치를 알려주시면 일정을 안내합니다.`,
+      q: `${area} 하수구청소·하수구막힘은 어디서 받나요?`,
+      a: `원진하수구에서 ${area} 하수구청소와 하수구막힘 상담이 가능합니다. 증상과 위치를 알려주시면 일정을 안내합니다.`,
     },
     {
-      q: `${area} 하수구청소 비용은 얼마인가요?`,
-      a: '배관 상태·오염 정도·작업 범위에 따라 달라 상담 후 안내합니다.',
+      q: `${area} 하수구막힘 비용은 얼마인가요?`,
+      a: '배관 상태·오염·막힘 정도·작업 범위에 따라 달라 상담 후 안내합니다.',
     },
     {
       q: '하수구 뚫기와 청소는 무엇이 다른가요?',
       a: '뚫기는 흐름을 일시적으로 여는 작업이고, 청소는 배관 안쪽 오염·누적 원인을 점검해 재발을 줄이는 방향입니다.',
     },
     {
-      q: `${area} 싱크대청소도 가능한가요?`,
-      a: '가능합니다. 기름때·음식물 찌꺼기로 느려진 주방 배수 청소·점검 상담을 진행합니다.',
+      q: `${area} 싱크대청소·막힘도 가능한가요?`,
+      a: '가능합니다. 기름때·음식물 찌꺼기로 느려진 주방 배수 청소·막힘 점검 상담을 진행합니다.',
     },
     {
       q: '밤이나 주말에도 상담 가능한가요?',
       a: '긴급 증상은 상담 후 가능 일정을 안내합니다. 전화 또는 사진 문의로 먼저 알려주세요.',
     },
     {
-      q: '배수구 악취도 청소 대상인가요?',
+      q: '배수구 악취·반복 막힘도 청소 대상인가요?',
       a: '트랩·오염·역류 등 원인이 다양합니다. 증상 확인 후 청소·점검 방향을 안내합니다.',
     },
   ];

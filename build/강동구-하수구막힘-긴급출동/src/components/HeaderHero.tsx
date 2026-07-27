@@ -19,7 +19,7 @@ export const Header = () => {
           </div>
           <div>
             <span className="font-extrabold text-lg md:text-2xl tracking-tight text-slate-900 leading-none">{contactInfo.companyName}</span>
-            <p className="hidden md:block text-[11px] text-slate-500 font-medium mt-0.5 tracking-tight">{area} 하수구청소 · {contactInfo.siteName}</p>
+            <p className="hidden md:block text-[11px] text-slate-500 font-medium mt-0.5 tracking-tight">{area} 하수구청소·막힘 · {contactInfo.siteName}</p>
           </div>
         </a>
 
@@ -91,17 +91,25 @@ export const Hero = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-500" />
               </span>
-              {contactInfo.siteName} · {area} 하수구청소
+              {contactInfo.siteName} · {area} 하수구청소·막힘
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.08] mb-5 tracking-[-0.04em] break-keep">
-              {area === regionName ? keywords.main : `${area} 하수구청소`},<br />
+              {area === regionName ? (
+                <>
+                  {keywords.main}·{keywords.clog},<br />
+                </>
+              ) : (
+                <>
+                  {area} 하수구청소·막힘,<br />
+                </>
+              )}
               <span className="text-orange-500">배관 안까지</span><br />
               깨끗하게
             </h1>
 
             <p className="text-lg md:text-xl text-slate-200 mb-4 font-semibold break-keep">
-              {heroLine || '싱크대 · 배수구 · 변기 · 정화조 청소·점검'}
+              {heroLine || '싱크대 · 배수구 · 변기 · 정화조 청소·막힘 점검'}
             </p>
             {pageIntro ? (
               <p className="text-base md:text-lg text-slate-300 mb-6 font-medium break-keep leading-relaxed max-w-xl">
@@ -170,7 +178,7 @@ export const Hero = () => {
           <div className="hidden lg:block w-1 h-1 rounded-full bg-slate-700" />
           <div className="flex items-center gap-2.5 text-white font-bold text-sm md:text-base">
             <Wrench className="w-5 h-5 text-orange-500" />
-            <span>하수구청소·역류 상담</span>
+            <span>하수구청소·막힘 상담</span>
           </div>
         </div>
       </div>

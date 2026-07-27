@@ -20,7 +20,7 @@ export const AnswerDefinition = () => {
   const definition =
     pageIntro ||
     siteDefinition ||
-    `${contactInfo.companyName}는 ${keywords.main}를 중심으로 싱크대·배수구·변기·정화조 청소와 악취·역류 점검을 상담합니다.`;
+    `${contactInfo.companyName}는 ${keywords.main}·${keywords.clog}를 중심으로 싱크대·배수구·변기·정화조 청소와 악취·역류·막힘 점검을 상담합니다.`;
 
   return (
     <section id="definition" className="py-14 md:py-16 bg-slate-50 border-y border-slate-100 scroll-mt-20" aria-labelledby="definition-heading">
@@ -30,15 +30,15 @@ export const AnswerDefinition = () => {
           한눈에 보는 답변
         </div>
         <h2 id="definition-heading" className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-4 break-keep">
-          {keywords.main}란?
+          {keywords.main}·{keywords.clog}란?
         </h2>
         <p className="text-lg md:text-xl text-slate-700 font-semibold leading-relaxed break-keep mb-4">
           {definition}
         </p>
         <p className="text-slate-600 font-medium break-keep leading-relaxed">
           {area === regionName
-            ? `${regionName} 전 지역과 인접 지역(송파·광진·하남) 상담이 가능하며, 견적은 현장 상태 확인 후 안내합니다.`
-            : `${area} 증상(배수 느림·악취·역류)을 알려주시면 ${contactInfo.companyName}가 점검·청소 방향을 안내합니다.`}
+            ? `${regionName} 전 지역과 인접 지역(송파·광진·하남)에서 하수구청소·하수구막힘 상담이 가능하며, 견적은 현장 상태 확인 후 안내합니다.`
+            : `${area} 하수구청소·하수구막힘 증상(배수 느림·악취·역류)을 알려주시면 ${contactInfo.companyName}가 점검·청소 방향을 안내합니다.`}
         </p>
       </div>
     </section>

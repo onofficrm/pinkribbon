@@ -124,7 +124,7 @@ export const FinalCTA = () => {
       <div className="absolute inset-0 bg-slate-950/80"></div>
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight break-keep">
-          {area} 하수구청소,<br className="hidden md:block" /> 사진 한 장이면 상담이 빨라집니다
+          {area} 하수구청소·막힘,<br className="hidden md:block" /> 사진 한 장이면 상담이 빨라집니다
         </h2>
         <p className="text-slate-300 text-lg mb-10 font-medium break-keep leading-relaxed max-w-2xl mx-auto">
           현재 배수 상태와 위치를 알려주세요. 필요한 청소·점검 방향을 빠르게 안내합니다.

@@ -262,11 +262,11 @@ export const Areas = () => {
 
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6 break-keep">
               동별·주변 지역<br className="hidden sm:block" />
-              <span className="underline decoration-orange-500 decoration-4 underline-offset-4">하수구청소 페이지</span>
+              <span className="underline decoration-orange-500 decoration-4 underline-offset-4">하수구청소·막힘 페이지</span>
             </h2>
 
             <p className="text-slate-600 text-lg font-bold mb-6 break-keep">
-              {areaSummary || regionName} 등 {regionName} 동별 페이지와 인접 지역 페이지에서 바로 전화·사진 상담이 가능합니다.
+              {areaSummary || regionName} 등 {regionName} 동별·인접 지역에서 하수구청소와 하수구막힘 상담이 가능합니다.
             </p>
 
             <p className="text-slate-500 text-sm font-bold mb-3">{regionName} 동별</p>
@@ -278,6 +278,7 @@ export const Areas = () => {
                   className="px-4 py-2.5 bg-white border border-slate-200 text-slate-800 rounded-xl font-extrabold text-sm shadow-sm hover:border-orange-400 hover:text-orange-600 transition-colors"
                 >
                   {area.label || area.name}
+                  {area.clog_label ? <span className="block text-[10px] font-bold text-slate-400">{area.clog_label}</span> : null}
                 </a>
               ))}
             </div>
@@ -293,6 +294,7 @@ export const Areas = () => {
                       className="px-4 py-2.5 bg-orange-50 border border-orange-100 text-orange-800 rounded-xl font-extrabold text-sm shadow-sm hover:border-orange-400 hover:text-orange-600 transition-colors"
                     >
                       {area.label || area.name}
+                      {area.clog_label ? <span className="block text-[10px] font-bold text-orange-500/80">{area.clog_label}</span> : null}
                     </a>
                   ))}
                 </div>
@@ -324,12 +326,12 @@ export const Areas = () => {
               </div>
 
               <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4 leading-snug break-keep">
-                우리 동네 하수구청소<br />
+                우리 동네 하수구청소·막힘<br />
                 상담 가능한지 확인하세요
               </h3>
 
               <p className="text-slate-300 font-medium mb-10 break-keep">
-                현장 위치와 배수 증상을 알려주시면<br />
+                현장 위치와 배수·막힘 증상을 알려주시면<br />
                 빠르게 안내해 드리겠습니다.
               </p>
 

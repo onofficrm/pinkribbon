@@ -246,6 +246,7 @@ if (!function_exists('g5site_public_profile')) {
             'openingHours'     => isset($clone['opening_hours']) ? (string) $clone['opening_hours'] : 'Mo-Su 00:00-23:59',
             'priceRange'       => isset($clone['price_range']) ? (string) $clone['price_range'] : '상담 후 안내',
             'ogImage'          => $og_image,
+            'clogKeyword'      => (isset($clone['region_name']) ? (string) $clone['region_name'] : '강동구') . '하수구막힘',
             'builderProjectId' => g5site_cfg('home_builder_bridge_id', 'gangdong-drain'),
             'pageIntro'        => '',
             'heroLine'         => '',

@@ -65,12 +65,12 @@ return array(
     ),
 
     'local_areas' => array(
-        array('slug' => 'jamsil', 'name' => '잠실동', 'label' => '잠실동 하수구청소', 'url' => '/page/local.php?area=jamsil'),
-        array('slug' => 'songpa', 'name' => '송파동', 'label' => '송파동 하수구청소', 'url' => '/page/local.php?area=songpa'),
-        array('slug' => 'garak', 'name' => '가락동', 'label' => '가락동 하수구청소', 'url' => '/page/local.php?area=garak'),
+        array('slug' => 'jamsil', 'name' => '잠실동', 'label' => '잠실동 하수구청소', 'clog_label' => '잠실동 하수구막힘', 'url' => '/page/local.php?area=jamsil'),
+        array('slug' => 'songpa', 'name' => '송파동', 'label' => '송파동 하수구청소', 'clog_label' => '송파동 하수구막힘', 'url' => '/page/local.php?area=songpa'),
+        array('slug' => 'garak', 'name' => '가락동', 'label' => '가락동 하수구청소', 'clog_label' => '가락동 하수구막힘', 'url' => '/page/local.php?area=garak'),
     ),
     'neighbor_areas' => array(
-        array('slug' => 'gangdong', 'name' => '강동구', 'label' => '강동구하수구청소', 'url' => '/page/local.php?area=gangdong'),
+        array('slug' => 'gangdong', 'name' => '강동구', 'label' => '강동구하수구청소', 'clog_label' => '강동구하수구막힘', 'url' => '/page/local.php?area=gangdong'),
     ),
     'area_spots' => array(
         '잠실역 인근', '송파나루역 인근', '가락시장역 인근',

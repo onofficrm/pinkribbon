@@ -66,11 +66,11 @@ export const TrustIdentity = () => (
             왜 원진하수구인가
           </div>
           <h2 id="trust-heading" className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-4 break-keep">
-            {regionName} 하수구청소,<br />
+            {regionName} 하수구청소·막힘,<br />
             필요한 작업만 정확하게
           </h2>
           <p className="text-slate-600 font-medium leading-relaxed break-keep mb-6 max-w-2xl">
-            {contactInfo.companyName}는 {keywords.main}를 중심으로 주거·상가 배관 청소와 악취·역류 점검을 상담합니다.
+            {contactInfo.companyName}는 {keywords.main}·{keywords.clog}를 중심으로 주거·상가 배관 청소와 악취·역류·막힘 점검을 상담합니다.
             과잉 공사 권유 없이, 증상과 현장 구조에 맞는 범위를 먼저 설명합니다.
           </p>
           <ul className="space-y-3 mb-8">

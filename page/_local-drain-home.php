@@ -26,6 +26,7 @@ if (is_file(G5_PATH . '/_site.config.php')) {
 $local_dong_slug = preg_replace('/[^a-z0-9-]/', '', strtolower((string) $local_dong_slug));
 $local_dong_name = isset($local_dong_name) ? trim(strip_tags((string) $local_dong_name)) : '';
 $local_area_label = '';
+$local_clog_label = '';
 $is_neighbor_area = false;
 
 $resolve_area_from_list = function ($areas, $slug) {
@@ -56,6 +57,7 @@ if (function_exists('g5site_public_profile')) {
     if ($matched) {
         $local_dong_name = trim(strip_tags((string) $matched['name']));
         $local_area_label = isset($matched['label']) ? trim(strip_tags((string) $matched['label'])) : '';
+        $local_clog_label = isset($matched['clog_label']) ? trim(strip_tags((string) $matched['clog_label'])) : '';
         if (isset($matched['url']) && (!isset($local_page_url) || $local_page_url === '')) {
             $local_page_url = (string) $matched['url'];
         }
@@ -65,6 +67,7 @@ if (function_exists('g5site_public_profile')) {
             $is_neighbor_area = true;
             $local_dong_name = trim(strip_tags((string) $matched['name']));
             $local_area_label = isset($matched['label']) ? trim(strip_tags((string) $matched['label'])) : '';
+            $local_clog_label = isset($matched['clog_label']) ? trim(strip_tags((string) $matched['clog_label'])) : '';
             if (isset($matched['url']) && (!isset($local_page_url) || $local_page_url === '')) {
                 $local_page_url = (string) $matched['url'];
             }
@@ -123,8 +126,11 @@ if (function_exists('onoff_builder_rewrite_asset_paths')) {
 
 $site_name = function_exists('g5site_cfg') ? g5site_cfg('site_name', '원진하수구') : '원진하수구';
 $main_kw = $local_area_label !== '' ? $local_area_label : ($local_dong_name . ' 하수구청소');
-$page_title = $main_kw . ' | ' . $site_name;
-$page_desc = $local_dong_name . ' 하수구청소 · 싱크대·배수구·변기·정화조 청소 상담. 원진하수구가 사진 한 장으로 빠르게 안내합니다.';
+if ($local_clog_label === '') {
+    $local_clog_label = $local_dong_name . ' 하수구막힘';
+}
+$page_title = $main_kw . '·' . $local_clog_label . ' | ' . $site_name;
+$page_desc = $local_dong_name . ' 하수구청소·하수구막힘 · 싱크대·배수구·변기·정화조 청소·막힘 상담. 원진하수구가 사진 한 장으로 빠르게 안내합니다.';
 
 $canonical_path = isset($local_page_url) && $local_page_url !== ''
     ? (string) $local_page_url
@@ -162,15 +168,20 @@ if (isset($area_content_map[$local_dong_slug]) && is_array($area_content_map[$lo
 }
 
 $secondary = array(
+    $local_clog_label,
+    str_replace(' ', '', $local_clog_label),
     $local_dong_name . ' 싱크대청소',
     $local_dong_name . ' 배수구청소',
     $local_dong_name . ' 변기막힘',
+    $local_dong_name . ' 하수구역류',
 );
 if ($is_neighbor_area) {
     $secondary[] = '강동구하수구청소';
+    $secondary[] = '강동구하수구막힘';
     $secondary[] = '원진하수구';
 } else {
     $secondary[] = '강동구하수구청소';
+    $secondary[] = '강동구하수구막힘';
 }
 
 if (function_exists('onoff_builder_inject_site_profile')) {
@@ -179,13 +190,14 @@ if (function_exists('onoff_builder_inject_site_profile')) {
         'seoTitle' => $page_title,
         'seoDescription' => $page_desc,
         'mainKeyword' => $main_kw,
-        'secondaryKeywords' => $secondary,
+        'secondaryKeywords' => array_values(array_unique(array_filter($secondary))),
         'canonical' => $canonical,
         'pageIntro' => $page_intro,
-        'heroLine' => $hero_line,
+        'heroLine' => $hero_line !== '' ? $hero_line : ($local_dong_name . ' 하수구청소·하수구막힘 상담'),
         'pageFaqs' => $page_faqs,
-        'serviceName' => $main_kw,
+        'serviceName' => $main_kw . '·' . $local_clog_label,
         'breadcrumbLabel' => $main_kw,
+        'clogKeyword' => $local_clog_label,
     ));
 }
 
