@@ -17,8 +17,8 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Brand & surface */
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
+  --color-primary: #fe6e00;
+  --color-primary-hover: #e56200;
   --color-secondary: #64748b;
   --color-bg: #ffffff;
   --color-surface: #f8fafc;
@@ -1853,24 +1853,35 @@ html.page-index .site-g5-widgets--tail {
   border: 0;
 }
 
-html.page-sub .site-aside {
-  display: block;
+/* 서브(시공사례 등)도 홈과 동일 — 로그인 사이드바·그누위젯 숨김, 본문 풀폭 */
+html.page-sub .site-aside,
+html.page-sub .site-g5-widgets--tail {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 html.page-sub #container_wr {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xl);
+  display: block;
 }
 
 html.page-sub #container {
-  flex: 1;
+  width: 100%;
+  max-width: none;
   min-width: 0;
 }
 
-html.page-sub .site-aside {
-  flex: 0 0 260px;
-  max-width: 100%;
+/* 시공사례 스킨이 자체 헤더를 쓰므로 중복 타이틀 숨김 */
+html.page-sub #container:has(.board-wrap--cases-gallery) #container_title,
+html.page-sub #container:has(#bo_v.cases-gallery) #container_title,
+html.page-sub #container:has(.cases-gallery) #container_title {
+  display: none;
 }
 
 /* 메인/서브 표시 제어 */
