@@ -120,8 +120,8 @@ $site_config = array(
     /* 콘텐츠 수집기 (lib/icrm-content.lib.php, plugin/content_collector/) — iCRM 중앙 API */
     'content_collector_builtin'      => true,
     'icrm_content_api_base_url'      => 'https://icrm.co.kr/api/content-collector',
-    'icrm_content_default_bo_table'  => '',  /* 수집 초안 기본 게시판 */
-    'icrm_content_default_mb_id'     => '',  /* 기본 작성자 (비우면 cf_admin) */
+    'icrm_content_default_bo_table'  => 'notice',  /* 후기·시공사례 — iCRM 발행 기본 */
+    'icrm_content_default_mb_id'     => 'admin',  /* 게시글 작성자 (iCRM 회원 연동은 nobalim) */
     /* iCRM 중앙 g5-update (lib/icrm-update.lib.php) — 빌더 publish → iCRM → 사이트 자동 pull */
     'icrm_update_enabled'       => true,
     'icrm_update_api_base_url'  => 'https://icrm.co.kr/api/g5-update',

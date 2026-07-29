@@ -36,3 +36,7 @@ build/**/node_modules/
 build/**/dist/
 **/node_modules/
 build/*.zip
+
+# iCRM / 온오프빌더 시크릿 (FTP 전용)
+data/icrm.config.php
+data/onoff-builder.config.php

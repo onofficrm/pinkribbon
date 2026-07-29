@@ -50,6 +50,15 @@ if($config['cf_add_meta'])
 ?>
 <title><?php echo $g5_head_title; ?></title>
 <?php
+/* 원진하수구 파비콘 */
+$__fav_ver = '20260729';
+echo '<link rel="icon" href="'.G5_URL.'/favicon.ico?v='.$__fav_ver.'" sizes="any">'.PHP_EOL;
+echo '<link rel="icon" type="image/png" sizes="32x32" href="'.G5_IMG_URL.'/favicon-32x32.png?v='.$__fav_ver.'">'.PHP_EOL;
+echo '<link rel="icon" type="image/png" sizes="192x192" href="'.G5_IMG_URL.'/favicon-192x192.png?v='.$__fav_ver.'">'.PHP_EOL;
+echo '<link rel="apple-touch-icon" href="'.G5_IMG_URL.'/apple-touch-icon.png?v='.$__fav_ver.'">'.PHP_EOL;
+unset($__fav_ver);
+?>
+<?php
 $shop_css = '';
 if (defined('_SHOP_')) $shop_css = '_shop';
 echo '<link rel="stylesheet" href="'.run_replace('head_css_url', G5_THEME_CSS_URL.'/'.(G5_IS_MOBILE?'mobile':'default').$shop_css.'.css?ver='.G5_CSS_VER, G5_THEME_URL).'">'.PHP_EOL;
