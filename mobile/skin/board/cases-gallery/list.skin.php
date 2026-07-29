@@ -34,6 +34,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         <div class="board-header__info" id="bo_list_total">
             <p class="board-header__eyebrow">Case Gallery</p>
             <h1 class="board-header__title"><?php echo get_text($board['bo_subject']); ?></h1>
+            <p class="board-header__desc">현장 사진으로 확인하는 작업 사례입니다. 지역·증상별로 찾아보세요.</p>
             <span class="board-header__count">총 <strong><?php echo number_format($total_count) ?></strong>건 · <?php echo $page ?> 페이지</span>
         </div>
         <ul class="board-actions btn_bo_user">
@@ -64,7 +65,11 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 
     <div class="board-list board-list--cases-gallery">
         <?php if (count($list) == 0) { ?>
-        <p class="board-list__empty">등록된 시공사례가 없습니다.<br>사진을 첨부해 첫 사례를 올려보세요.</p>
+        <div class="board-list__empty">
+            <span class="board-list__empty-icon" aria-hidden="true"><i class="fa fa-camera"></i></span>
+            <strong>등록된 시공사례가 없습니다</strong>
+            <span>사진을 첨부해 첫 사례를 올려보세요.</span>
+        </div>
         <?php } else { ?>
         <ul class="board-list__grid" id="gall_ul">
         <?php for ($i=0; $i<count($list); $i++) {
@@ -86,7 +91,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                         <span class="board-list__thumb-wrap board-list__thumb-wrap--grid">
                             <?php echo run_replace('thumb_image_tag', $thumb_html, array('bo_table'=>$bo_table, 'wr_id'=>$list[$i]['wr_id'])); ?>
                         </span>
-                        <div class="board-list__overlay">
+                        <div class="board-list__body">
                             <?php if ($is_category && $list[$i]['ca_name']) { ?>
                             <span class="board-list__cate"><?php echo $list[$i]['ca_name'] ?></span>
                             <?php } ?>
