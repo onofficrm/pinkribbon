@@ -36,12 +36,7 @@ $g5_is_index_page = defined('_INDEX_');
 ?>
 
     </div>
-    <div id="aside" class="site-aside">
-        <div class="site-g5-widgets site-g5-widgets--aside">
-            <?php echo outlogin(function_exists('onoff_platform_outlogin_skin_for_page') ? onoff_platform_outlogin_skin_for_page('basic') : 'basic'); ?>
-            <?php echo poll(); ?>
-        </div>
-    </div>
+    <?php /* 홈 톤앤매너: 로그인 사이드바 미출력 */ ?>
 </div>
 
 </div>
@@ -57,10 +52,12 @@ $g5_is_index_page = defined('_INDEX_');
 
 <!-- 하단 시작 { -->
 <div id="ft" class="site-footer-wrap">
+    <?php if ($g5_is_index_page) { ?>
     <div class="site-g5-widgets site-g5-widgets--tail">
         <?php echo latest('notice', 'notice', 4, 13); ?>
         <?php echo visit(); ?>
     </div>
+    <?php } ?>
 
     <footer id="siteFooter" class="site-footer">
         <div class="site-footer__inner">
@@ -136,7 +133,6 @@ $g5_is_index_page = defined('_INDEX_');
 </div>
 
 <?php
-include_once(G5_PATH.'/components/floating-buttons.php');
 include_once(G5_PATH.'/components/consult-modal.php');
 include_once(G5_PATH.'/components/popup-banner.php');
 ?>

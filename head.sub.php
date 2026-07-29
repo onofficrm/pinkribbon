@@ -40,7 +40,7 @@ header("Pragma: no-cache"); // HTTP/1.0
 */
 ?>
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="<?php echo defined('_INDEX_') ? 'page-index' : 'page-sub'; ?>">
 <head>
 <meta charset="utf-8">
 <?php

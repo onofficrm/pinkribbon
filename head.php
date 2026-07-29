@@ -112,12 +112,27 @@ $g5_inquiry_url = defined('_INDEX_') ? G5_URL.'/#section-contact' : G5_BBS_URL.'
 $g5_consult_label = function_exists('g5site_cfg') ? g5site_cfg('consultation_text', '상담문의') : '상담문의';
 
 
-// 메뉴 (PC / 모바일)
-$menu_datas_pc = get_menu_db(0, true);
-$menu_datas_mo = get_menu_db(1, true);
-if (!is_array($menu_datas_mo) || !count($menu_datas_mo)) {
-    $menu_datas_mo = $menu_datas_pc;
-}
+// 홈화면과 동일한 GNB (빌더 섹션 앵커 + 시공사례/소개)
+$g5_phone = function_exists('g5site_cfg') ? g5site_cfg('phone', '') : '';
+$g5_main_keyword = function_exists('g5site_cfg') ? g5site_cfg('main_keyword', '') : '';
+$g5_cta_label = trim($g5_main_keyword) !== ''
+    ? (preg_replace('/\s+/', ' ', $g5_main_keyword) . ' 상담')
+    : (function_exists('g5site_cfg') ? g5site_cfg('consultation_text', '긴급출동 상담') : '긴급출동 상담');
+$g5_tel_href = function_exists('g5site_tel_link') ? g5site_tel_link($g5_phone) : ('tel:' . preg_replace('/[^0-9+]/', '', $g5_phone));
+
+$g5_home_nav = array(
+    array('me_name' => '서비스', 'me_link' => G5_URL . '/#services', 'me_target' => 'self', 'sub' => array()),
+    array('me_name' => '대처법', 'me_link' => G5_URL . '/#howto', 'me_target' => 'self', 'sub' => array()),
+    array('me_name' => '뚫기vs청소', 'me_link' => G5_URL . '/#compare', 'me_target' => 'self', 'sub' => array()),
+    array('me_name' => '사진상담', 'me_link' => G5_URL . '/#inquiry-form', 'me_target' => 'self', 'sub' => array()),
+    array('me_name' => '출동지역', 'me_link' => G5_URL . '/#areas', 'me_target' => 'self', 'sub' => array()),
+    array('me_name' => '시공사례', 'me_link' => G5_BBS_URL . '/board.php?bo_table=notice', 'me_target' => 'self', 'sub' => array()),
+    array('me_name' => '소개', 'me_link' => G5_URL . '/page/about.php', 'me_target' => 'self', 'sub' => array()),
+    array('me_name' => '후기', 'me_link' => G5_URL . '/#reviews', 'me_target' => 'self', 'sub' => array()),
+    array('me_name' => 'FAQ', 'me_link' => G5_URL . '/#faq', 'me_target' => 'self', 'sub' => array()),
+);
+$menu_datas_pc = $g5_home_nav;
+$menu_datas_mo = $g5_home_nav;
 ?>
 
 <!-- 상단 시작 { -->
@@ -184,38 +199,14 @@ if (!is_array($menu_datas_mo) || !count($menu_datas_mo)) {
             </nav>
 
             <div class="site-header__utils">
-                <div class="site-header__search">
-                    <fieldset id="hd_sch">
-                        <legend class="sound_only">사이트 내 전체검색</legend>
-                        <form name="fsearchbox" method="get" action="<?php echo G5_BBS_URL; ?>/search.php" onsubmit="return fsearchbox_submit(this);">
-                            <input type="hidden" name="sfl" value="wr_subject||wr_content">
-                            <input type="hidden" name="sop" value="and">
-                            <label for="sch_stx" class="sound_only">검색어 필수</label>
-                            <input type="text" name="stx" id="sch_stx" maxlength="20" placeholder="검색" class="site-header__search-input">
-                            <button type="submit" id="sch_submit" value="검색" class="site-header__search-btn">
-                                <i class="fa fa-search" aria-hidden="true"></i><span class="sound_only">검색</span>
-                            </button>
-                        </form>
-                    </fieldset>
-                </div>
 
-                <ul class="site-header__account hd_login">
-                    <?php if ($is_member) { ?>
-                    <li><a href="<?php echo G5_BBS_URL; ?>/member_confirm.php?url=<?php echo G5_BBS_URL; ?>/register_form.php">정보수정</a></li>
-                    <li><a href="<?php echo G5_BBS_URL; ?>/logout.php">로그아웃</a></li>
-                    <?php if (function_exists('icrm_hub_show_geo_button') && icrm_hub_show_geo_button()) { ?>
-                    <li><a href="<?php echo icrm_hub_geo_url(); ?>" class="site-header__geo-link">GEO도우미</a></li>
-                    <?php } ?>
-                    <?php if ($is_admin) { ?>
-                    <li class="tnb_admin"><a href="<?php echo correct_goto_url(G5_ADMIN_URL); ?>">관리자</a></li>
-                    <?php } ?>
-                    <?php } else { ?>
-                    <li><a href="<?php echo G5_BBS_URL; ?>/register.php">회원가입</a></li>
-                    <li><a href="<?php echo G5_BBS_URL; ?>/login.php">로그인</a></li>
-                    <?php } ?>
-                </ul>
 
-                <a href="<?php echo $g5_inquiry_url; ?>" class="btn btn-primary site-header__cta"><?php echo get_text($g5_consult_label); ?></a>
+                <a href="<?php echo htmlspecialchars($g5_tel_href, ENT_QUOTES, 'UTF-8'); ?>" class="site-header__cta site-header__cta--phone">
+                    <span class="site-header__cta-label"><i class="fa fa-phone" aria-hidden="true"></i> <?php echo get_text($g5_cta_label); ?></span>
+                    <?php if ($g5_phone !== '') { ?>
+                    <strong class="site-header__cta-phone"><?php echo get_text($g5_phone); ?></strong>
+                    <?php } ?>
+                </a>
 
                 <button type="button" class="site-header__menu-btn" aria-controls="siteMobileNav" aria-expanded="false" title="전체메뉴">
                     <i class="fa fa-bars" aria-hidden="true"></i>
@@ -279,22 +270,12 @@ if (!is_array($menu_datas_mo) || !count($menu_datas_mo)) {
                 <li><a href="<?php echo G5_SHOP_URL; ?>">쇼핑몰</a></li>
                 <?php } ?>
             </ul>
-            <div class="site-header__mobile-account">
-                <?php if ($is_member) { ?>
-                <a href="<?php echo G5_BBS_URL; ?>/member_confirm.php?url=<?php echo G5_BBS_URL; ?>/register_form.php">정보수정</a>
-                <a href="<?php echo G5_BBS_URL; ?>/logout.php">로그아웃</a>
-                <?php if (function_exists('icrm_hub_show_geo_button') && icrm_hub_show_geo_button()) { ?>
-                <a href="<?php echo icrm_hub_geo_url(); ?>" class="site-header__geo-link">GEO도우미</a>
+            <a href="<?php echo htmlspecialchars($g5_tel_href, ENT_QUOTES, 'UTF-8'); ?>" class="site-header__cta site-header__cta--phone site-header__mobile-cta">
+                <span class="site-header__cta-label"><i class="fa fa-phone" aria-hidden="true"></i> <?php echo get_text($g5_cta_label); ?></span>
+                <?php if ($g5_phone !== '') { ?>
+                <strong class="site-header__cta-phone"><?php echo get_text($g5_phone); ?></strong>
                 <?php } ?>
-                <?php if ($is_admin) { ?>
-                <a href="<?php echo correct_goto_url(G5_ADMIN_URL); ?>">관리자</a>
-                <?php } ?>
-                <?php } else { ?>
-                <a href="<?php echo G5_BBS_URL; ?>/register.php">회원가입</a>
-                <a href="<?php echo G5_BBS_URL; ?>/login.php">로그인</a>
-                <?php } ?>
-            </div>
-            <a href="<?php echo $g5_inquiry_url; ?>" class="btn btn-primary site-header__mobile-cta"><?php echo get_text($g5_consult_label); ?></a>
+            </a>
         </div>
         <div class="site-header__overlay" aria-hidden="true"></div>
     </header>
