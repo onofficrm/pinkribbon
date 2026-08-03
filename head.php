@@ -106,6 +106,25 @@ $g5_site_title = function_exists('g5site_cfg')
 if ($g5_site_title === '') {
     $g5_site_title = get_text($config['cf_title']);
 }
+$g5_brand_name = function_exists('g5site_cfg')
+    ? g5site_cfg('company_name', $g5_site_title)
+    : $g5_site_title;
+if ($g5_brand_name === '') {
+    $g5_brand_name = $g5_site_title;
+}
+$g5_region_name = '';
+$g5_region_initial = '원';
+if (isset($GLOBALS['site_clone_config']) && is_array($GLOBALS['site_clone_config'])) {
+    if (!empty($GLOBALS['site_clone_config']['region_name'])) {
+        $g5_region_name = (string) $GLOBALS['site_clone_config']['region_name'];
+    }
+    if (!empty($GLOBALS['site_clone_config']['region_initial'])) {
+        $g5_region_initial = (string) $GLOBALS['site_clone_config']['region_initial'];
+    }
+}
+$g5_logo_tagline = $g5_region_name !== ''
+    ? ($g5_region_name . ' 하수구청소·막힘 · ' . $g5_brand_name)
+    : $g5_brand_name;
 
 // 상담문의 URL (메인: contact 섹션 / 그 외: Q&A)
 $g5_inquiry_url = defined('_INDEX_') ? G5_URL.'/#section-contact' : G5_BBS_URL.'/qalist.php';
@@ -151,12 +170,16 @@ $menu_datas_mo = $g5_home_nav;
 
         <div class="site-header__inner">
             <div class="site-header__logo">
-                <a href="<?php echo G5_URL; ?>" class="site-header__logo-link">
+                <a href="<?php echo G5_URL; ?>" class="site-header__logo-link" aria-label="<?php echo htmlspecialchars($g5_brand_name, ENT_QUOTES, 'UTF-8'); ?>">
                     <?php if ($g5_logo_url) { ?>
-                    <img src="<?php echo $g5_logo_url; ?>" alt="<?php echo $g5_site_title; ?>" class="site-header__logo-img">
+                    <img src="<?php echo $g5_logo_url; ?>" alt="" class="site-header__logo-img" width="40" height="40">
                     <?php } else { ?>
-                    <span class="site-header__logo-text"><?php echo $g5_site_title; ?></span>
+                    <span class="site-header__logo-mark" aria-hidden="true"><?php echo htmlspecialchars($g5_region_initial, ENT_QUOTES, 'UTF-8'); ?></span>
                     <?php } ?>
+                    <span class="site-header__logo-copy">
+                        <span class="site-header__logo-name"><?php echo htmlspecialchars($g5_brand_name, ENT_QUOTES, 'UTF-8'); ?></span>
+                        <span class="site-header__logo-tagline"><?php echo htmlspecialchars($g5_logo_tagline, ENT_QUOTES, 'UTF-8'); ?></span>
+                    </span>
                 </a>
             </div>
 

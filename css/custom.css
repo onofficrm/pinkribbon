@@ -1534,20 +1534,68 @@
 .site-header__logo-link {
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
   color: #fff;
   text-decoration: none;
+  min-width: 0;
 }
 
-.site-header__logo-img {
+.site-header__logo-img,
+.site-header__logo-mark {
   display: block;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
   max-height: 40px;
-  width: auto;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
+.site-header__logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+}
+
+.site-header__logo-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  gap: 2px;
+}
+
+.site-header__logo-name,
 .site-header__logo-text {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
+  display: block;
+  color: inherit;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.site-header__logo-tagline {
+  display: none;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .site-header__logo-tagline {
+    display: block;
+  }
 }
 
 .site-header__gnb {
@@ -2857,14 +2905,38 @@ html:has(.site-dock) {
 }
 
 .site-header__logo-link,
+.site-header__logo-name,
 .site-header__logo-text {
   color: #0f172a !important;
   -webkit-text-fill-color: #0f172a !important;
 }
 
-.site-header__logo-img {
-  max-height: 48px;
+.site-header__logo-img,
+.site-header__logo-mark {
+  width: 40px;
+  height: 40px;
+  max-height: 40px;
 }
+
+.site-header__logo-tagline {
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+}
+
+@media (max-width: 767px) {
+  .site-header__logo-img,
+  .site-header__logo-mark {
+    width: 32px;
+    height: 32px;
+    max-height: 32px;
+  }
+
+  .site-header__logo-name,
+  .site-header__logo-text {
+    font-size: 1.125rem;
+  }
+}
+
 
 .site-header__gnb-list {
   display: flex;
