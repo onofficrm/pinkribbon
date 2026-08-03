@@ -190,19 +190,29 @@
 }
 
 .board-list--cases-gallery .board-list__thumb-wrap--grid {
+  position: relative;
   display: block;
+  width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
+  flex-shrink: 0;
   background: var(--cases-surface);
 }
 
 .board-list--cases-gallery .board-list__thumb-wrap--grid .board-thumb,
 .board-list--cases-gallery .board-list__thumb-wrap--grid .board-thumb__img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-base, 250ms ease);
+}
+
+.board-list--cases-gallery .board-list__thumb-wrap--grid .board-thumb__img--placeholder {
+  object-fit: contain;
+  padding: 1.25rem;
 }
 
 .board-list--cases-gallery .board-list__card-inner:hover .board-thumb__img {
