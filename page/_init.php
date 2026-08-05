@@ -22,8 +22,11 @@ if (!defined('_GNUBOARD_')) {
  */
 function g5_page_start($title)
 {
-    global $g5;
+    global $g5, $page_title, $page_description, $page_keywords,
+           $page_og_image, $page_canonical, $page_robots, $page_schema_type;
     $g5['title'] = $title;
+    // head.php/head.sub.php는 전역 변수를 직접 참조한다. 함수 내부 include 시 스코프 맞춤.
+    extract($GLOBALS, EXTR_SKIP | EXTR_REFS);
     include_once(G5_PATH.'/head.php');
 }
 
@@ -32,5 +35,6 @@ function g5_page_start($title)
  */
 function g5_page_end()
 {
+    extract($GLOBALS, EXTR_SKIP | EXTR_REFS);
     include_once(G5_PATH.'/tail.php');
 }
